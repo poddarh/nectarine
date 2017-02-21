@@ -1,6 +1,7 @@
 body {
   background-color: #a6d785;
   padding-top: 60px;
+  position: relative;
 }
 
 .navbar {
@@ -12,7 +13,7 @@ body {
 }
 
 .title {
-  padding-top: 15px;
+  padding-top: 14px;
   color: white;
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 14px;
@@ -28,4 +29,17 @@ nav button {
   color: white;
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 12px;
+  border-color: #488214;
+}
+
+.myfiles-btn:hover .glyphicon {
+  color: #488214;
+}
+
+.glyphicon-lg {
+  font-size: 15px;
+}
+
+.navigation-menu .main-feed {
+  border-style: solid;
 }
