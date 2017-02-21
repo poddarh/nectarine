@@ -1,0 +1,31 @@
+body {
+  background-color: #a6d785;
+  padding-top: 60px;
+}
+
+.navbar {
+  background-color: #488214;
+}
+
+.navbar .glyphicon {
+  color: white;
+}
+
+.title {
+  padding-top: 15px;
+  color: white;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 14px;
+}
+
+nav button {
+  padding-right: 10px;
+  padding-top: 10px;
+}
+
+.myfiles-btn {
+  background-color: #488214;
+  color: white;
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 12px;
+}
