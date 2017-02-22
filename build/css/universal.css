@@ -36,6 +36,10 @@ nav button {
   color: #488214;
 }
 
+.myfiles-btn:focus .glyphicon{
+  color: #488214;
+}
+
 .glyphicon-lg {
   font-size: 15px;
 }
