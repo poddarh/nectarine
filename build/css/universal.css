@@ -40,6 +40,13 @@ nav button {
   font-size: 15px;
 }
 
-.navigation-menu .main-feed {
-  border-style: solid;
+.menu {
+  padding-left: 0px;
+  height: 500px;
+  border: solid;
+}
+
+.main-feed {
+  height: 500px;
+  border: solid;
 }
