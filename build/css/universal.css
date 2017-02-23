@@ -57,3 +57,7 @@ nav button {
 .highlighted {
   background-color: #236e68;
 }
+
+ul a {
+  border-bottom: solid #bdbdbd;
+}
