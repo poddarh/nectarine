@@ -1,11 +1,15 @@
 body {
-  background-color: #a6d785;
+  background-color: #99cdc9;
   padding-top: 60px;
   position: relative;
 }
 
+.files {
+  padding-top: 50px;
+}
+
 .navbar {
-  background-color: #488214;
+  background-color: #236e68;
 }
 
 .navbar .glyphicon {
@@ -25,18 +29,18 @@ nav button {
 }
 
 .myfiles-btn {
-  background-color: #488214;
+  background-color: #236e68;
   color: white;
+  border-color: #236e68;
+}
+
+.app-font {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 12px;
-  border-color: #488214;
+  color: white;
 }
 
-.myfiles-btn:hover .glyphicon {
-  color: #488214;
-}
-
-.myfiles-btn:focus .glyphicon{
+.myfiles-btn:hover .glyphicon, .myfiles-btn:focus .glyphicon {
   color: #488214;
 }
 
@@ -44,13 +48,12 @@ nav button {
   font-size: 15px;
 }
 
-.menu {
-  padding-left: 0px;
-  height: 500px;
-  border: solid;
+.nav-menu {
+  background-color: #20bf9f;
+  border-radius: 10px;
+  height: 450px;
 }
 
-.main-feed {
-  height: 500px;
-  border: solid;
+.highlighted {
+  background-color: #236e68;
 }
