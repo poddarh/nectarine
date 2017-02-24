@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MyFiles.io</title>
+
+    <!-- Bootstrap's CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/universal.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <span class="glyphicon glyphicon-qrcode"></span>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <!-- Left aligned is just page title -->
+          <div class="navbar navbar-nav navbar-left">
+            <p class="title">myfiles.io</p>
+          </div>
+          <!--Right Aligned Items -->
+          <div class="nav navbar-nav navbar-right">
+            <div class="btn-toolbar pull-right" role="toolbar">
+              <button type="button" class="btn btn-default navbar-btn myfiles-btn app-font">
+                <span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
+                  About Us
+              </button>
+              <button type="button" class="btn btn-default navbar-btn myfiles-btn app-font">
+                <span class="glyphicon glyphicon-envelope glyphicon-lg"></span>
+                  Contact
+              </button>
+              <button type="button" class="btn btn-default navbar-btn myfiles-btn app-font">
+                <span class="glyphicon glyphicon-question-sign glyphicon-lg"></span>
+                  How To
+              </button>
+            </div>
+          </div>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container -->
+    </nav>
+
+    <!-- Two components: Left side which is the navigation menu (4 columns) and main feed (remaining 8 columns) -->
+    <div class="container files">
+      <div class="col-md-4 nav-menu">
+        <div class="row">
+          <ul class="nav nav-pills nav-stacked">
+            <li>
+              <a href="#" class="app-font">
+                <span class="glyphicon glyphicon-comment glyphicon-lg"></span> files.io
+              </a>
+            </li>
+            <li>
+              <a href="#" class="app-font">
+                <span class="glyphicon glyphicon-comment"></span> Profile
+                <!--span class="glyphicon glyphicon-comment"></span-->
+              </a>
+            </li>
+            <li>
+              <a href="#" class="app-font highlighted">
+                <span class="glyphicon glyphicon-cloud"></span> Cloud Services?
+                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        Your Linked Cloud Accounts
+        <div class="col-md-12">
+          Google Drive
+        </div>
+      </div>
+    </div>
+
+  </body>
