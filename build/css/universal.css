@@ -139,3 +139,7 @@ nav button {
   margin: 20px;
   padding: auto;
 }
+
+button#help:active {
+  background : #236e68;
+}
