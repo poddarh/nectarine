@@ -1,86 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MyFiles.io</title>
 
-    <!-- Bootstrap's CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/universal.css" rel="stylesheet">
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyFiles.io</title>
 
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">
-            <span class="glyphicon glyphicon-qrcode"></span>
-          </a>
-        </div>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600" rel="stylesheet">
+  <!-- Bootstrap's CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="css/universal.css" rel="stylesheet">
+</head>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <!-- Left aligned is just page title -->
-          <div class="navbar navbar-nav navbar-left">
-            <p class="title">myfiles.io</p>
-          </div>
-          <!--Right Aligned Items -->
-          <div class="nav navbar-nav navbar-right">
-            <div class="btn-toolbar pull-right" role="toolbar">
-              <button type="button" class="btn btn-default navbar-btn myfiles-btn app-font">
-                <span class="glyphicon glyphicon-info-sign glyphicon-lg"></span>
-                  About Us
-              </button>
-              <button type="button" class="btn btn-default navbar-btn myfiles-btn app-font">
-                <span class="glyphicon glyphicon-envelope glyphicon-lg"></span>
-                  Contact
-              </button>
-              <button type="button" class="btn btn-default navbar-btn myfiles-btn app-font">
-                <span class="glyphicon glyphicon-question-sign glyphicon-lg"></span>
-                  How To
-              </button>
-            </div>
-          </div>
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container -->
-    </nav>
+<body>
 
-    <!-- Two components: Left side which is the navigation menu (4 columns) and main feed (remaining 8 columns) -->
-    <div class="container files">
-      <div class="col-md-4 nav-menu">
-        <div class="row">
-          <ul class="nav nav-pills nav-stacked">
-            <li>
-              <a href="#" class="app-font">
-                <span class="glyphicon glyphicon-comment glyphicon-lg"></span> files.io
-              </a>
-            </li>
-            <li>
-              <a href="#" class="app-font">
-                <span class="glyphicon glyphicon-comment"></span> Profile
-                <!--span class="glyphicon glyphicon-comment"></span-->
-              </a>
-            </li>
-            <li>
-              <a href="#" class="app-font highlighted">
-                <span class="glyphicon glyphicon-cloud"></span> Cloud Services?
-                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-              </a>
-            </li>
-          </ul>
-        </div>
+  <!-- Top-Right Navigation Sidebar -->
+  <nav class="navbar navbar-default navbar-fixed-top myfiles-top-sidebar">
+    <div class="navbar-right" role="toolbar">
+      <button type="button" class="btn btn-default app-font">
+        <span class="glyphicon glyphicon-info-sign glyphicon-lg"></span> About Us
+      </button>
+      <button type="button" class="btn btn-default app-font">
+        <span class="glyphicon glyphicon-envelope glyphicon-lg"></span> Contact
+      </button>
+      <button type="button" class="btn btn-default app-font">
+        <span class="glyphicon glyphicon-question-sign glyphicon-lg"></span> How To
+      </button>
+    </div>
+  </nav>
+
+  <div class="navbar-fixed-left">
+
+    <!-- The Logo Secion -->
+    <div class="myfiles-title-logo">
+      <a class="navbar-brand" href="#">
+        <span class="glyphicon glyphicon-qrcode"></span>
+      </a>
+      <p class="myfiles-title">myfiles.io</p>
+    </div>
+
+    <!-- Left Navigation Sidebar -->
+    <div class="myfiles-left-sidebar app-font">
+      <div class="row">
+        <ul class="nav nav-pills nav-stacked">
+          <li>
+            <a href="home.html">
+              <span class="glyphicon glyphicon-home glyphicon-lg"></span>Home
+            </a>
+          </li>
+          <li>
+            <a href="profile.html">
+              <span class="glyphicon glyphicon-user"></span>Profile
+            </a>
+          </li>
+          <li>
+            <a href="cloud.html" class="myfiles-left-sidebar-selected">
+              <span class="glyphicon glyphicon-hdd"></span>Cloud Services
+              <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+            </a>
+          </li>
+        </ul>
       </div>
+    </div>
 
-      <div class="col-md-8">
+  </div>
+
+  <!-- The body -->
+  <div class="container myfiles-body">
+    <div class="col-md-8">
         Your Linked Cloud Accounts
         <div class="row"> <!--Cloud Accounts Titles stuff -->
           <div class="col-md-6">
@@ -93,17 +82,21 @@
         <div class="row"> <!--The two icons -->
           <div class="col-md-6">
             <img src="img/googledrive_logo.jpg" width="80%"/>
-            <div class=row>
-              <div class="text-center">
-                <span style="font-size:1.5em;" class="glyphicon glyphicon-ok"></span>
+            <div class="row">
+              <div class="col-md-10">
+                <div class="text-center">
+                  <span style="font-size:1.5em;" class="glyphicon glyphicon-ok"></span>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <img src="img/dropbox_logo.png" height="200px"/>
-            <div class=row>
-              <div class="text-center">
-                <span style="font-size:1.5em;" class="glyphicon glyphicon-ok"></span>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="text-center">
+                  <span style="font-size:1.5em;" class="glyphicon glyphicon-ok"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -111,4 +104,6 @@
       </div>
     </div>
 
-  </body>
+  </div>
+
+</body>
