@@ -1,26 +1,14 @@
 body {
-  background-color: #99cdc9;
-  padding-top: 60px;
+  background-color: #e6e6e6;
+  padding-top: 56px;
   position: relative;
 }
 
-.files {
-  padding-top: 50px;
-}
-
-.navbar {
-  background-color: #236e68;
-}
-
-.navbar .glyphicon {
-  color: white;
-}
-
-.title {
-  padding-top: 14px;
-  color: white;
-  font-family: "Lucida Console", Monaco, monospace;
+.app-font {
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
+  font-weight: 300;
+  color: white;
 }
 
 nav button {
@@ -28,36 +16,126 @@ nav button {
   padding-top: 10px;
 }
 
-.myfiles-btn {
+.glyphicon-lg {
+  font-size: 15px;
+}
+
+/* Top Navbar Styling */
+.myfiles-top-sidebar {
+  padding-left: 256px;
+  padding-right: 15px;
+  height: 56px;
+  background-color: #236e68;
+  border: 0;
+  border-bottom: 1px;
+  border-style: solid;
+  border-color: grey;
+  box-shadow: 0px 1px 5px grey;
+  z-index: 99;
+}
+
+.myfiles-top-sidebar .navbar-right {
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+.myfiles-top-sidebar .glyphicon {
+  color: white;
+}
+
+.myfiles-top-sidebar button {
   background-color: #236e68;
   color: white;
   border-color: #236e68;
 }
 
-.app-font {
-  font-family: "Lucida Console", Monaco, monospace;
-  font-size: 12px;
+.myfiles-top-sidebar button .glyphicon {
+  top: 3px;
+  padding-right: 5px;
+}
+
+.myfiles-top-sidebar button:hover .glyphicon, .navbar-fixed-top button:focus .glyphicon {
+  color: #236e68;
+}
+
+/* Left Navbar Styling */
+.navbar-fixed-left {
+  top: 0;
+  z-index: 100;
+  width: 256px;
+  position: fixed;
+  border-radius: 0;
+  height: 100%;
+  background-color: #333333;
+  box-shadow: 1px 0px 5px #333333;
+}
+
+.navbar-fixed-left + .container {
+  padding-left: 256px;
+}
+
+.myfiles-left-sidebar .row {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.myfiles-left-sidebar .row a{
+  border-radius: 0;
+  color: #9c9c9c;
+  border: 0;
+}
+
+.myfiles-left-sidebar li:first-child a{
+  padding-top: 13px;
+}
+
+.myfiles-left-sidebar .row a:hover {
+    text-decoration: none;
+    background-color: #236e68;
+    color: white;
+    box-shadow: 0px 0px 2px #236e68;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.myfiles-left-sidebar-selected {
+  color: white !important;
+  font-weight: 400;
+}
+
+.myfiles-left-sidebar .glyphicon {
+  padding-right: 18px;
+  padding-left: 3px;
+}
+
+/* Title */
+.myfiles-title-logo {
+  color: white;
+  height: 56px;
+  border: 0;
+  border-bottom: 1px;
+  border-color: grey;
+  border-style: solid;
+  width: 100%;
+  padding: 3px;
+}
+
+.myfiles-title {
+  padding-top: 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.myfiles-title-logo .navbar-brand {
   color: white;
 }
 
-.myfiles-btn:hover .glyphicon, .myfiles-btn:focus .glyphicon {
-  color: #488214;
-}
-
-.glyphicon-lg {
-  font-size: 15px;
-}
-
-.nav-menu {
-  background-color: #20bf9f;
-  border-radius: 10px;
-  height: 450px;
-}
-
-.highlighted {
-  background-color: #236e68;
-}
-
-ul a {
-  border-bottom: solid #bdbdbd;
+/* Body */
+.myfiles-body {
+  margin: 20px;
+  padding: auto;
 }
