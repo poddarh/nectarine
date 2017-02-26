@@ -19,22 +19,15 @@
   <!-- Top-Right Navigation Sidebar -->
   <nav class="navbar navbar-default navbar-fixed-top myfiles-top-sidebar">
     <div class="navbar-right" role="toolbar">
-
-      <a href="about.html">
-      <button type="button" class="btn btn-default app-font">
+      <button type="button" class="btn btn-default app-font" onclick="location.href = 'about.html';">
         <span class="glyphicon glyphicon-info-sign glyphicon-lg"></span> About Us
       </button>
-    </a>
-      <a href="contact.html">
-      <button type="button" class="btn btn-default app-font">
+      <button type="button" class="btn btn-default app-font" onclick="location.href = 'contact.html';">
         <span class="glyphicon glyphicon-envelope glyphicon-lg"></span> Contact
       </button>
-    </a>
-    <a href="help.html">
-      <button type="button" class="btn btn-default app-font">
+      <button type="button" class="btn btn-default app-font" onclick="location.href = 'instructions.html';">
         <span class="glyphicon glyphicon-question-sign glyphicon-lg"></span> How To
       </button>
-    </a>
     </div>
   </nav>
 
@@ -76,40 +69,42 @@
   <!-- The body -->
   <div class="container myfiles-body">
 <!--Field where Information goes-->
-              <h1>Nectarine</h1>
-              <div class="row">
-                <div class="col-md-6">
-                  <h5>The Group that Could</h5>
-                  </div>
+        <div class="row"> <!--The two icons -->
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group">
+                  <label for="InputName">Full Name</label>
+                  <input type="text" class="form-control" id="InputName">
                 </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <div class"imgAbt">
-                      <img src="img/nectarine.jpg" alt="Our Group" class="img-thumbnail" style="width:304px">
-                    </div>
-                  </div>
-                  <div class="col-md-8 ">
-                      <p class="text-center"> Here is a huge paragraph about us. Only us.
-                        Maybe a little about this class and how it got us to do this.
-                        But mostly us. Seriously long. We have such a rich background. In experience, not money.
-                      But hey I mean someday our time will come. This could project could be what sets us in motion
-                    to be the next quadrillionaires. Or just be a fun story to tell the kids.</p>
-                    <blockquote class="blockquote-reverse">
-                      <p>We are trending up boys! We are trending up.</p>
-                      <footer>T. J. Miller in <cite title="Source Title">Silicon Valley</cite></footer>
-                    </blockquote>
-                </div>
-                  </div>
-                  <div class="row">
-                    <h1> </h1>
-                  </div>
-                    <div class="row">
-                  <ul class="list-inline text-center">
-                    <li>Current Team: Harsh Poddar, Jackie Wang, Brian Gregg, Matthew Hinsley, Ryan Fleisher, and Cameron Pavao</li>
-                  </ul>
-                </div>
-                </div>
+              </div>
             </div>
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group">
+                  <label for="InputName">Your Email</label>
+                  <input type="text" class="form-control" id="Email">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group">
+                  <label for="InputName">Type of Issue</label>
+                  <input type="text" class="form-control" id="TypeofIssue">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group">
+                  <label for="exampleTextarea">Question</label>
+                  <textarea class="form-control" id="QuestionText" rows="5"></textarea>
+                </div>
+              </div>
+            </div>
+             <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
         </div>
       </div>
     </div>
