@@ -11,11 +11,8 @@ body {
   padding-top: 50px;
 }
 
-.row {
-  padding-top: 50px;
-}
-
 img {
+  margin-top: 50px;
   margin-right: 25px;
   margin-left: 25px;
   border: outset white;
