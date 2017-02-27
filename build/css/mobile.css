@@ -1,4 +1,24 @@
 body {
-  background-color: #e6e6e6;
+  background-color: #236e68;
   position: relative;
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 25px;
+  font-weight: 300;
+  color: white;
+  padding-top: 50px;
+}
+
+.row {
+  padding-top: 50px;
+}
+
+img {
+  margin-right: 25px;
+  margin-left: 25px;
+  border: outset white;
+  border-radius: 10px;
+  background-color: #474747;
 }
