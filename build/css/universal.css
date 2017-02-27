@@ -43,19 +43,25 @@ nav button {
   color: white;
 }
 
-.myfiles-top-sidebar button {
+.myfiles-top-sidebar a {
   background-color: #236e68;
   color: white;
   border-color: #236e68;
 }
 
-.myfiles-top-sidebar button .glyphicon {
+.myfiles-top-sidebar a .glyphicon {
   top: 3px;
   padding-right: 5px;
 }
 
-.myfiles-top-sidebar button:hover .glyphicon, .navbar-fixed-top button:focus .glyphicon {
+.myfiles-top-sidebar a:hover .glyphicon, .navbar-fixed-top a:focus .glyphicon, .myfiles-top-navbar-btn-selected .glyphicon {
   color: #236e68;
+}
+
+.myfiles-top-navbar-btn-selected {
+  color: #333 !important;
+  background-color: #e6e6e6 !important;
+  border-color: #adadad !important;
 }
 
 /* Left Navbar Styling */
@@ -144,6 +150,6 @@ nav button {
   padding: auto;
 }
 
-button#help:active {
+a#help:active {
   background : #236e68;
 }
