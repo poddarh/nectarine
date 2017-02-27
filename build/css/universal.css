@@ -70,6 +70,10 @@ nav button {
   box-shadow: 1px 0px 5px #333333;
 }
 
+.myfiles-center-text {
+  text-align: center;
+}
+
 .navbar-fixed-left + .container {
   padding-left: 256px;
 }
