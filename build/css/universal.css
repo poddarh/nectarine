@@ -43,19 +43,25 @@ nav button {
   color: white;
 }
 
-.myfiles-top-sidebar button {
+.myfiles-top-sidebar a {
   background-color: #236e68;
   color: white;
   border-color: #236e68;
 }
 
-.myfiles-top-sidebar button .glyphicon {
+.myfiles-top-sidebar a .glyphicon {
   top: 3px;
   padding-right: 5px;
 }
 
-.myfiles-top-sidebar button:hover .glyphicon, .navbar-fixed-top button:focus .glyphicon {
+.myfiles-top-sidebar a:hover .glyphicon, .navbar-fixed-top a:focus .glyphicon, .myfiles-top-navbar-btn-selected .glyphicon {
   color: #236e68;
+}
+
+.myfiles-top-navbar-btn-selected {
+  color: #333 !important;
+  background-color: #e6e6e6 !important;
+  border-color: #adadad !important;
 }
 
 /* Left Navbar Styling */
@@ -68,6 +74,10 @@ nav button {
   height: 100%;
   background-color: #333333;
   box-shadow: 1px 0px 5px #333333;
+}
+
+.myfiles-center-text {
+  text-align: center;
 }
 
 .navbar-fixed-left + .container {
@@ -140,6 +150,21 @@ nav button {
   padding: auto;
 }
 
-button#help:active {
+a#help:active {
   background : #236e68;
+}
+
+.myfiles-qr-code-column {
+  text-align: right;
+}
+
+.myfiles-qr-code-column img {
+  height: 100%;
+  border: 10px solid #333;
+  box-shadow: 1px 1px 5px #424242;
+}
+
+.myfiles-qr-code-sidetext span {
+  font-size: 36px;
+  font-weight: bold;
 }
