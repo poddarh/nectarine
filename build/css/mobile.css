@@ -11,6 +11,14 @@ body {
   padding-top: 30px;
 }
 
+.regular-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 200;
+  color: white;
+  padding-top: 30px;
+}
+
 img {
   margin-top: 50px;
   margin-right: 25px;
@@ -37,4 +45,14 @@ img {
   color: white;
   padding-left: 20px;
   padding-right: 20px;
+  font-size: 20px;
+}
+
+.files {
+  margin-top: 20px;
+}
+
+.more-files {
+  margin-left: 20px;
+  margin-right: 20px;
 }
