@@ -168,3 +168,7 @@ a#help:active {
   font-size: 36px;
   font-weight: bold;
 }
+
+.imgAbt img {
+  width: 304px;
+}
