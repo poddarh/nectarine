@@ -6,7 +6,6 @@ import ABOUT from './components/about.js';
 import CONTACT from './components/contact.js';
 import HELP from './components/help.js';
 import HOME from './components/home.js';
-import INDEX from './components/index.js';
 import MOBILE_CLOUD_SERVICES from './components/mobile_cloud_services.js';
 import MOBILE_FILES_AND_FOLDERS from './components/mobile_files_and_folders.js';
 import USER_CLOUD_SERVICES from './components/user_cloud_services.js';
@@ -33,11 +32,6 @@ if (document.getElementById('about') !== null) {
   ReactDOM.render(
     <HOME />,
     document.getElementById('home')
-  );
-} else if (document.getElementById('index') !== null) {
-  ReactDOM.render(
-    <INDEX />,
-    document.getElementById('index')
   );
 } else if (document.getElementById('mobile_cloud_services') !== null) {
   ReactDOM.render(
