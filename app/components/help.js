@@ -19,7 +19,7 @@ export default class Help extends React.Component {
 						</div>
 						<div className="col-md-4">
 							<img src="img/howto.jpg" />
-						</div>		
+						</div>
 				</Body>
 			)
 		}
