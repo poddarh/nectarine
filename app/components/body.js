@@ -16,12 +16,12 @@ export default class Body extends React.Component {
     );
   }
 
-  getLeftNavbarButton (href, name) {
+  getLeftNavbarButton (href, name, icon) {
     let selected = this.isCurrentPage (href);
     return (
       <li>
         <a href={ href } className={ selected ? "myfiles-left-sidebar-selected" : "" }>
-          <span className="glyphicon glyphicon-home glyphicon-lg"></span>
+          <span className={ icon }></span>
           { name }
           { selected ? <span className="glyphicon glyphicon-chevron-right pull-right"></span> : null }
         </a>
@@ -52,9 +52,9 @@ export default class Body extends React.Component {
           <div className="myfiles-left-sidebar app-font">
             <div className="row">
               <ul className="nav nav-pills nav-stacked">
-                { this.getLeftNavbarButton ("/home.html", "Home") }
-                { this.getLeftNavbarButton ("/user_profile.html", "Profile") }
-                { this.getLeftNavbarButton ("/user_cloud_services.html", "Cloud Services") }
+                { this.getLeftNavbarButton ("/home.html", "Home", "glyphicon glyphicon-home glyphicon-lg") }
+                { this.getLeftNavbarButton ("/user_profile.html", "Profile", "glyphicon glyphicon-user glyphicon-lg") }
+                { this.getLeftNavbarButton ("/user_cloud_services.html", "Cloud Services", "glyphicon glyphicon-hdd glyphicon-lg") }
               </ul>
             </div>
           </div>
