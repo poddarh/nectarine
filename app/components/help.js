@@ -6,7 +6,6 @@ export default class Help extends React.Component {
 	render() {
 		return (
 			<Body>
-				<div className="container myfiles-body">
 					<div className="col-md-8">
 						<h1>Workflow</h1> myFiles is a platform for using your cell phone to authorize foreign devices to access your personal media
 							<h3>Step 1</h3>
@@ -20,8 +19,7 @@ export default class Help extends React.Component {
 						</div>
 						<div className="col-md-4">
 							<img src="img/howto.jpg" />
-						</div>
-					</div>
+						</div>		
 				</Body>
 			)
 		}
