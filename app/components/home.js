@@ -1,7 +1,7 @@
 import React from 'react';
 import Body from './body.js';
 
-export default class About extends React.Component {
+export default class Home extends React.Component {
 
 	render() {
 		return (
