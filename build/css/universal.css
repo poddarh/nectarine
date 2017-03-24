@@ -155,7 +155,7 @@ a#help:active {
 }
 
 .myfiles-qr-code-column {
-  text-align: right;
+  text-align: center;
 }
 
 .myfiles-qr-code-column img {
@@ -167,4 +167,8 @@ a#help:active {
 .myfiles-qr-code-sidetext span {
   font-size: 36px;
   font-weight: bold;
+}
+
+.imgAbt img {
+  width: 304px;
 }
