@@ -1,18 +1,19 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 export default class Body extends React.Component {
 
   isCurrentPage (uri) {
-    return window.location.pathname == uri;
+    return this.props.location.pathname == uri;
   }
 
   getTopNavbarButton (href, name) {
     let selected = this.isCurrentPage (href);
     return (
-      <a href={ href } className={ "btn btn-default app-font" + (selected ? " myfiles-top-navbar-btn-selected" : "") }>
+      <Link to={ href } className={ "btn btn-default app-font" + (selected ? " myfiles-top-navbar-btn-selected" : "") }>
         <span className="glyphicon glyphicon-info-sign glyphicon-lg"></span>
         { name }
-      </a>
+      </Link>
     );
   }
 
@@ -20,11 +21,11 @@ export default class Body extends React.Component {
     let selected = this.isCurrentPage (href);
     return (
       <li>
-        <a href={ href } className={ selected ? "myfiles-left-sidebar-selected" : "" }>
+        <Link to={ href } className={ selected ? "myfiles-left-sidebar-selected" : "" }>
           <span className={ icon }></span>
           { name }
           { selected ? <span className="glyphicon glyphicon-chevron-right pull-right"></span> : null }
-        </a>
+        </Link>
       </li>
     );
   }
@@ -34,9 +35,9 @@ export default class Body extends React.Component {
       <div>
         <nav className="navbar navbar-default navbar-fixed-top myfiles-top-sidebar">
           <div className="navbar-right" role="toolbar">
-            { this.getTopNavbarButton ("/about.html", "About Us") }
-            { this.getTopNavbarButton ("/contact.html", "Contact") }
-            { this.getTopNavbarButton ("/help.html", "How To") }
+            { this.getTopNavbarButton ("/about", "About Us") }
+            { this.getTopNavbarButton ("/contact", "Contact") }
+            { this.getTopNavbarButton ("/help", "How To") }
           </div>
         </nav>
 
@@ -52,9 +53,9 @@ export default class Body extends React.Component {
           <div className="myfiles-left-sidebar app-font">
             <div className="row">
               <ul className="nav nav-pills nav-stacked">
-                { this.getLeftNavbarButton ("/home.html", "Home", "glyphicon glyphicon-home glyphicon-lg") }
-                { this.getLeftNavbarButton ("/user_profile.html", "Profile", "glyphicon glyphicon-user glyphicon-lg") }
-                { this.getLeftNavbarButton ("/user_cloud_services.html", "Cloud Services", "glyphicon glyphicon-hdd glyphicon-lg") }
+                { this.getLeftNavbarButton ("/", "Home", "glyphicon glyphicon-home glyphicon-lg") }
+                { this.getLeftNavbarButton ("/user_profile", "Profile", "glyphicon glyphicon-user glyphicon-lg") }
+                { this.getLeftNavbarButton ("/user_cloud_services", "Cloud Services", "glyphicon glyphicon-hdd glyphicon-lg") }
               </ul>
             </div>
           </div>

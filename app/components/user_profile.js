@@ -1,11 +1,9 @@
 import React from 'react';
-import Body from './body.js';
 
 export default class User_Profile extends React.Component {
 
 	render() {
 		return (
-			<Body>
 				<div className="row">
 					<div className="col-md-4 col-md-offset-1">
 						Name
@@ -38,7 +36,6 @@ export default class User_Profile extends React.Component {
 						<button className="btn btn-default center-block" type="button">Upload New Image</button>
 					</div>
 				</div>
-			</Body>
 		)
 	}
 }

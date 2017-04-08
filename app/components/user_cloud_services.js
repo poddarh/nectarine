@@ -1,11 +1,9 @@
 import React from 'react';
-import Body from './body.js';
 
 export default class User_Cloud_Services extends React.Component {
 
 	render() {
     return(
-      <Body>
         <div className="container">
           <div className="col-xs-12">
             <div className="row text-center title">
@@ -30,9 +28,6 @@ export default class User_Cloud_Services extends React.Component {
             </div>
           </div>
         </div>
-
-      </Body>
-
     )
   }
 }

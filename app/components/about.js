@@ -1,11 +1,10 @@
 import React from 'react';
-import Body from './body.js';
 
 export default class About extends React.Component {
 
 	render() {
 		return (
-			<Body>
+			<div>
 				<h1>Nectarine</h1>
 				<div className="row">
 					<div className="col-md-6">
@@ -31,7 +30,7 @@ export default class About extends React.Component {
 						<li>Current Team: Harsh Poddar, Jackie Wang, Brian Gregg, Matthew Hinsley, Ryan Fleesher, and Cameron Pavao</li>
 					</ul>
 				</div>
-			</Body>
+			</div>
 		)
 	}
 }

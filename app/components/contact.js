@@ -1,11 +1,9 @@
 import React from 'react';
-import Body from './body.js';
 
 export default class Contact extends React.Component {
 
 	render() {
 		return (
-			<Body>
 				<div className="row">
 					<div className="col-md-6">
 						<div className="row">
@@ -43,7 +41,6 @@ export default class Contact extends React.Component {
 						<button type="submit" className="btn btn-primary">Submit</button>
 					</div>
 				</div>
-			</Body>
 		)
 	}
 }
