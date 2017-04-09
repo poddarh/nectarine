@@ -22,5 +22,5 @@ export function updateUserData(data, cb) {
 
 export function sendContactEmail(form, cb) {
 	//Logic to send an email here!
-  emulateServerReturn(form, cb);
+  emulateServerReturn({success:true}, cb);
 }

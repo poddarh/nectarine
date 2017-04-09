@@ -21,26 +21,31 @@ export default class Contact extends React.Component {
 		var thisEmail = this.state.email.trim();
 		var thisTOI = this.state.typeOfIssue.trim();
 		var thisQuestion = this.state.question.trim();
-		if (thisName !== "" || thisEmail !== "" || thisTOI !== "" || thisQuestion !== "") {
+		if (thisName == "") {
+			this.setState({message: "You need to enter a name"});
+		}
+		else if (thisEmail == "") {
+			this.setState({message: "You need to enter an email"});
+		}
+		else if (thisTOI == "") {
+			this.setState({message: "You need to enter a type of issue"});
+		}
+		else if (thisQuestion == "") {
+			this.setState({message: "You need to enter a question"});
+		}
+		else if (thisName !== "" || thisEmail !== "" || thisTOI !== "" || thisQuestion !== "") {
 			var newData = this.state.data;
-			if (thisName !== "") {
-				newData.name = thisName;
-				this.setState({name: ""});
-			}
-			if (thisEmail !== "") {
-				newData.email = thisEmail;
-				this.setState({email: ""});
-			}
-			if (thisTOI !== "") {
-				newData.typeOfIssue = thisTOI;
-				this.setState({typeOfIssue: ""});
-			}
-			if (thisName !== "") {
-				newData.question = thisQuestion;
-				this.setState({question: ""});
-			}
-			sendContactEmail(newData, (data) => {this.setState({data: data})});
-			this.setState({message: "Your form has been submitted!"});
+			newData.name = thisName;
+			newData.email = thisEmail;
+			newData.typeOfIssue = thisTOI;
+			newData.question = thisQuestion;
+			sendContactEmail(newData, (data) => {
+				if (data.success == true) {
+					this.setState({name: "", email: "", typeOfIssue: "", question: "", data: [], message: "Your form has been submitted!"})
+				}
+				else
+				alert("Unexpected error occurred");
+			});
 		}
 	}
 
@@ -89,9 +94,9 @@ export default class Contact extends React.Component {
 					</div>
 					<button type="submit" className="btn btn-primary" onClick={(e) => this.handleSubmit(e)}>Submit</button>
 					<p></p>{this.state.message}
-					<div id="db-reset"></div>
+						<div id="db-reset"></div>
+					</div>
 				</div>
-			</div>
-		)
+			)
+		}
 	}
-}
