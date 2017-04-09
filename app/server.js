@@ -24,3 +24,9 @@ export function sendContactEmail(form, cb) {
 	//Logic to send an email here!
   emulateServerReturn({success:true}, cb);
 }
+
+export function getUserCloudServices(userID, cb) {
+  var userData = readDocument('users', userID);
+  var cloudServicesData = userData.cloud_services;
+  emulateServerReturn(cloudServicesData, cb);
+}
