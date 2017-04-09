@@ -58,7 +58,7 @@ export default class Body extends React.Component {
                 { this.getLeftNavbarButton ("/user_profile", "Profile", "glyphicon glyphicon-user glyphicon-lg") }
                 { this.getLeftNavbarButton ("/user_cloud_services", "Cloud Services", "glyphicon glyphicon-hdd glyphicon-lg") }
                 <li>
-                  <a onClick={() => {
+                  <a href="#" onClick={() => {
                       resetDatabase();
                       window.alert("Database reset! Refreshing the page now...");
                       document.location.reload(false);
