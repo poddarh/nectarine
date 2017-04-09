@@ -89,7 +89,9 @@ class ResetDatabase extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <ResetDatabase />,
-  document.getElementById('db-reset')
-);
+if (document.getElementById('db-reset') !== null) {
+  ReactDOM.render(
+    <ResetDatabase />,
+    document.getElementById('db-reset')
+  );  
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import {resetDatabase} from '../database.js';
 
 export default class Body extends React.Component {
 
@@ -56,6 +57,16 @@ export default class Body extends React.Component {
                 { this.getLeftNavbarButton ("/", "Home", "glyphicon glyphicon-home glyphicon-lg") }
                 { this.getLeftNavbarButton ("/user_profile", "Profile", "glyphicon glyphicon-user glyphicon-lg") }
                 { this.getLeftNavbarButton ("/user_cloud_services", "Cloud Services", "glyphicon glyphicon-hdd glyphicon-lg") }
+                <li>
+                  <a onClick={() => {
+                      resetDatabase();
+                      window.alert("Database reset! Refreshing the page now...");
+                      document.location.reload(false);
+                    }}>
+                    <span className="glyphicon glyphicon-floppy-remove glyphicon-lg"></span>
+                    Reset Mock DB
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
