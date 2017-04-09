@@ -19,3 +19,8 @@ export function updateUserData(data, cb) {
   writeDocument('users', data);
   emulateServerReturn(data, cb);
 }
+
+export function sendContactEmail(form, cb) {
+	//Logic to send an email here!
+  emulateServerReturn(form, cb);
+}
