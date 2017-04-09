@@ -1,3 +1,4 @@
+import {getUserData, updateUserData} from '../server.js';
 import React from 'react';
 
 export default class User_Profile extends React.Component {
@@ -11,27 +12,31 @@ export default class User_Profile extends React.Component {
 			newPassword: "",
 			newPasswordCheck: "",
 			//current user settings
-			//TODO pull from database
-			userName: "userName",
-			userEmail: "userEmail",
-			userPassword: "password",
-			userImage: "img/profile-temp.jpg",
+			data: [],
 			//error message
 			message: ""
 		}
+		getUserData('1', (data) => {this.setState({data: data});});
 	}
 
 	handleSaveChanges(e) {
 		e.preventDefault();
 		var changeName = this.state.newName.trim();
 		var changeEmail = this.state.newEmail.trim();
-		if (changeName !== "") {
-			//TODO function to set user name > changeName
-			this.setState({newName: "", userName: changeName});
-		}
-		if (changeEmail !== "") {
-			//TODO function to set user email > changeEmail
-			this.setState({newEmail: "", userEmail: changeEmail});
+		//something is being changed
+		if (changeName !== "" || changeEmail !== "") {
+			var newData = this.state.data;
+			//new name to update
+			if (changeName !== "") {
+				newData.name = changeName;
+				this.setState({newName: ""});
+			}
+			//new email to update
+			if (changeEmail !== "") {
+				newData.email = changeEmail;
+				this.setState({newEmail: ""});
+			}
+			updateUserData(newData, (data) => {this.setState({data: data})});
 		}
 	}
 
@@ -39,7 +44,7 @@ export default class User_Profile extends React.Component {
 		e.preventDefault();
 		var current = this.state.currentPassword.trim();
 		//does entered current password match user's old password
-		if (current == this.state.userPassword) {
+		if (current == this.state.data.password) {
 			var changePassword = this.state.newPassword.trim();
 			var checkPassword = this.state.newPasswordCheck.trim();
 			//does entered new password match confirmed password
@@ -48,6 +53,9 @@ export default class User_Profile extends React.Component {
 			}
 			else if (changePassword == checkPassword) {
 				//TODO fuction to set user password > changePassword
+				var newData = this.state.data;
+				newData.password = changePassword;
+				updateUserData(newData, (data) => {this.setState({data: data})});
 				this.setState({currentPassword: "", newPassword: "", newPasswordCheck: "", message: "Password Changed"});
 			}
 			else {
@@ -72,11 +80,11 @@ export default class User_Profile extends React.Component {
 					<div className="col-md-4 col-md-offset-1">
 						Name
 						<div className="form-group">
-							<input type="text" className="form-control" placeholder={this.state.userName} value={this.state.newName} onChange={(e) => this.handleChange("newName", e)}/>
+							<input type="text" className="form-control" placeholder={this.state.data.name} value={this.state.newName} onChange={(e) => this.handleChange("newName", e)}/>
 						</div>
 						Email Address
 						<div className="form-group">
-							<input type="text" className="form-control" placeholder={this.state.userEmail} value={this.state.newEmail} onChange={(e) => this.handleChange("newEmail", e)}/>
+							<input type="text" className="form-control" placeholder={this.state.data.email} value={this.state.newEmail} onChange={(e) => this.handleChange("newEmail", e)}/>
 						</div>
 						<button className="btn btn-default center-block" type="button" onClick={(e) => this.handleSaveChanges(e)}>Save Changes</button>
 						<br></br>
@@ -97,9 +105,10 @@ export default class User_Profile extends React.Component {
 						{this.state.message}
 					</div>
 					<div className="col-md-3 col-md-offset-2">
-						<img src={this.state.userImage} className="img-responsive center-block" width="95%"/>
+						<img src={this.state.data.image} className="img-responsive center-block" width="95%"/>
 						<br></br>
 						<button className="btn btn-default center-block" type="button">Upload New Image</button>
+						<div id="db-reset"></div>
 					</div>
 				</div>
 		)

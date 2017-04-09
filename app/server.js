@@ -9,3 +9,13 @@ function emulateServerReturn(data, cb) {
     cb(data);
   }, 4);
 }
+
+export function getUserData(userId, cb) {
+  var userData = readDocument('users', userId);
+  emulateServerReturn(userData, cb);
+}
+
+export function updateUserData(data, cb) {
+  writeDocument('users', data);
+  emulateServerReturn(data, cb);
+}

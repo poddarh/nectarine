@@ -9,10 +9,10 @@ var initialData = {
   "users": {
     "1": {
       "_id": 1,
-      "name": "Someone",
-      "email": "someone@whatever.com",
-      "password": "pw",
-      "profile image": "url of some kind"
+      "name": "Initial User",
+      "email": "user@email.com",
+      "password": "password",
+      "image": "img/profile-temp.jpg"
     }
   }
 };
@@ -93,5 +93,5 @@ if (document.getElementById('db-reset') !== null) {
   ReactDOM.render(
     <ResetDatabase />,
     document.getElementById('db-reset')
-  );  
+  );
 }
