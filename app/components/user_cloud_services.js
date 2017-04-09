@@ -6,17 +6,7 @@ export default class User_Cloud_Services extends React.Component {
 	//THE CODE BELOW IS BROKEN, WE NEED THE "CONNECTED" FIELDS TO BE POPULATED FROM DATABASE.JS, RIGHT NOW THESE VALUES ARE HARDCODED
 	constructor(props){
 		super(props);
-		this.state = {
-			"cloud_services": {
-				"dropbox": {
-					"token": 0,
-					"expiry": 0
-				},
-				"google_drive":{
-					"token": 0
-				}
-			}
-		}
+		this.state = { "cloud_services": { } }
 		getUserCloudServices('1', (data) => {this.setState({cloud_services: data});})
 	}
 
