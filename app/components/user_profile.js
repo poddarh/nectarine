@@ -11,6 +11,7 @@ export default class User_Profile extends React.Component {
 			currentPassword: "",
 			newPassword: "",
 			newPasswordCheck: "",
+			imagePath: "",
 			//current user settings
 			data: [],
 			//error message
@@ -67,6 +68,33 @@ export default class User_Profile extends React.Component {
 		}
 	}
 
+	handleChangeImage(e) {
+		e.preventDefault();
+		var newData = this.state.data;
+		if (newData.imagePath == "img/profile-temp.jpg"){
+			newData.imagePath = "img/camcamcamcam.jpg";
+		}
+		else if (newData.imagePath == "img/camcamcamcam.jpg"){
+			newData.imagePath = "img/fleesh.jpg";
+		}
+		else if (newData.imagePath == "img/fleesh.jpg"){
+			newData.imagePath = "img/gregbrian.jpg";
+		}
+		else if (newData.imagePath == "img/gregbrian.jpg"){
+			newData.imagePath = "img/jdog.jpg";
+		}
+		else if (newData.imagePath == "img/jdog.jpg"){
+			newData.imagePath = "img/tooclose.jpg";
+		}
+		else if (newData.imagePath == "img/tooclose.jpg"){
+			newData.imagePath = "img/profile-temp.jpg";
+		}
+		else{
+			newData.imagePath = "img/profile-temp.jpg";
+		}
+		updateUserData(newData, (data) => {this.setState({data: data})});
+	}
+
 	handleChange(key, e) {
 		e.preventDefault();
 		var state = {}
@@ -105,9 +133,9 @@ export default class User_Profile extends React.Component {
 						{this.state.message}
 					</div>
 					<div className="col-md-3 col-md-offset-2">
-						<img src={this.state.data.image} className="img-responsive center-block" width="95%"/>
+						<img src={this.state.data.imagePath} className="img-responsive center-block" width="95%"/>
 						<br></br>
-						<button className="btn btn-default center-block" type="button">Upload New Image</button>
+						<button className="btn btn-default center-block" type="button" onClick={(e) => this.handleChangeImage(e)}>Change Profile Image</button>
 						<div id="db-reset"></div>
 					</div>
 				</div>
