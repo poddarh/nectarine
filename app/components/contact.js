@@ -43,8 +43,9 @@ export default class Contact extends React.Component {
 				if (data.success == true) {
 					this.setState({name: "", email: "", typeOfIssue: "", question: "", data: [], message: "Your form has been submitted!"})
 				}
-				else
-				alert("Unexpected error occurred");
+				else{
+					this.setState({message: "Unexpected error occurred!"})
+				}
 			});
 		}
 	}
