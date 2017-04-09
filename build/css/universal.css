@@ -172,3 +172,7 @@ a#help:active {
 .imgAbt img {
   width: 304px;
 }
+
+.cloudservices-alignment {
+  text-align: center;
+}

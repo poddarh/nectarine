@@ -12,12 +12,15 @@ export default class User_Cloud_Services extends React.Component {
 
             <div className="row text-center">
               <img src="img/googledrive_logo.png"/>
+							<div className="cloudservices-alignment">
+								<span className="glyphicon glyphicon-ok"></span>
+							</div>
               <img src="img/dropbox_logo.png"/>
+							<div className="cloudservices-alignment">
+								<span className="glyphicon glyphicon-ok"></span>
+							</div>
             </div>
-						<div className="row text-center">
-							<span className="glyphicon glyphicon-ok glyphicon-lg"></span>
-							<span className="glyphicon glyphicon-ok glyphicon-lg"></span>
-						</div>
+
           </div>
         </div>
     )
