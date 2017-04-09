@@ -3,33 +3,31 @@ import {addUserCloudServices, removeUserCloudServices, getUserCloudServices, get
 
 export default class User_Cloud_Services extends React.Component {
 
-//THE CODE BELOW IS BROKEN, WE NEED THE "CONNECTED" FIELDS TO BE POPULATED FROM DATABASE.JS, RIGHT NOW THESE VALUES ARE HARDCODED
+	//THE CODE BELOW IS BROKEN, WE NEED THE "CONNECTED" FIELDS TO BE POPULATED FROM DATABASE.JS, RIGHT NOW THESE VALUES ARE HARDCODED
 	constructor(props){
 		super(props);
 		this.state = {
 			"cloud_services": {
-        "dropbox": {
-          "connected": false,
-          "token": 0,
-          "expiry": 0
-        },
-        "google_drive": {
-          "connected": true,
-          "token": 0
-        }
-      }
+				"dropbox": {
+					"token": 0,
+					"expiry": 0
+				},
+				"google_drive":{
+					"token": 0
+				}
+			}
 		}
-		getUserCloudServices('1', (data) => {this.setState({data: data});})
+		getUserCloudServices('1', (data) => {this.setState({cloud_services: data});})
 	}
 
 	render() {
-		var googleGlyph = "glyphicon glyphicon-remove";
-		var dropGlyph = "glyphicon glyphicon-remove";
-		if (this.state.cloud_services.dropbox.connected){
-			dropGlyph = "glyphicon glyphicon-ok";
+		var googleGlyph = "glyphicon glyphicon-ok";
+		var dropGlyph = "glyphicon glyphicon-ok";
+		if (this.state.cloud_services.dropbox === undefined){
+			dropGlyph = "glyphicon glyphicon-remove";
 		}
-		if (this.state.cloud_services.google_drive.connected){
-			googleGlyph = "glyphicon glyphicon-ok";
+		if (this.state.cloud_services.google_drive === undefined){
+			googleGlyph = "glyphicon glyphicon-remove";
 		}
 		return(
 			<div className="container">

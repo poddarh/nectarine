@@ -15,13 +15,8 @@ var initialData = {
       "image": "img/profile-temp.jpg",
       "cloud_services": {
         "dropbox": {
-          "connected": true,
           "token": 234234534,
           "expiry": 1435365643564
-        },
-        "google_drive": {
-          "connected": true,
-          "token": 234234534
         }
       }
     }
