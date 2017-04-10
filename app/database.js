@@ -72,6 +72,17 @@ export function addDocument(collectionName, newDoc) {
   return newDoc;
 }
 
+export function removeDocument(collectionName, oldDoc) {
+  var collection = data[collectionName];
+  var targetId = Object.keys(collection).length - 1;
+  while (collection[targetId]) {
+    targetId++;
+  }
+  oldDoc._id = undefined;
+  writeDocument(collectionName, oldDoc);
+  return oldDoc;
+}
+
 /**
  * Reset our browser-local database.
  */
