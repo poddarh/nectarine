@@ -17,6 +17,9 @@ var initialData = {
         "dropbox": {
           "token": 234234534,
           "expiry": 1435365643564
+        },
+        "google_drive": {
+          "token": 123
         }
       }
     }

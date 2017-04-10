@@ -32,7 +32,10 @@ export function getUserCloudServices(userID, cb) {
 
 }
 
-//export function getUserCloudServicesSync()
+export function getFilesAndFolders(userId, cloud_service, cb){
+  //insert logic here
+  emulateServerReturn({success:true}, cb);
+}
 
 export function addUserCloudServices(userID, type, cb) {
   var userData = readDocument('users', userID);
@@ -68,9 +71,3 @@ export function removeUserCloudServices(userID, type, cb) {
   //userData.cloudServices = userData.cloudServices.map()
   emulateServerReturn(cloudServicesData, cb);
 }
-
-/*export function addToken(userID, token, cb) {
-  var userData = readDocument('users', userID);
-  var tokenData = writeDocument('token', userData.token);
-  emulateServerReturn(tokenData, cb);
-}*/

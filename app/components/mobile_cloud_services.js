@@ -1,8 +1,18 @@
 import React from 'react';
+import {getUserCloudServices} from '../server';
+import {Link} from 'react-router';
 
 export default class MobileCloudServices extends React.Component {
-	render() {
-		return (
+
+	constructor(props){
+		super(props);
+		this.state = { "cloud_services": { } }
+		getUserCloudServices('1', (data) => {this.setState({cloud_services: data});})
+	}
+
+
+	render(){
+		return(
         <div className="container">
           <div className="col-xs-12">
             <div className="row text-center title">
@@ -10,8 +20,14 @@ export default class MobileCloudServices extends React.Component {
             </div>
 
             <div className="row text-center">
-              <img src="img/googledrive_logo.png"/>
-              <img src="img/dropbox_logo.png"/>
+							{(function(bool) {
+								if(bool)
+									return <Link to={"/files_and_folders/Google Drive"}><img src="img/googledrive_logo.png"/></Link>
+							})(this.state.cloud_services.google_drive !== undefined)}
+							{(function(bool) {
+								if(bool)
+									return <Link to="/files_and_folders/Dropbox"><img src="img/dropbox_logo.png"/></Link>
+							})(this.state.cloud_services.dropbox !== undefined)}
             </div>
 
             <div className="row text-center title">
