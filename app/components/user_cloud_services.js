@@ -27,7 +27,11 @@ export default class User_Cloud_Services extends React.Component {
 				alert("Removed Connection!");
 			} else {
 				// User clicked 'Connect Now' button.
-				addUserCloudServices('1', "google_drive", callbackFunction);
+				let authDetails = {
+					"token": 234236554,
+					"expiry": 1434396643584
+				}
+				addUserCloudServices('1', "google_drive", authDetails, callbackFunction);
 				alert("Added Connection!");
 			}
 		}
@@ -48,7 +52,11 @@ export default class User_Cloud_Services extends React.Component {
 				alert("Removed Connection!");
 			} else {
 				// User clicked 'Connect Now' button.
-				addUserCloudServices('1', "dropbox", callbackFunction);
+				let authDetails = {
+					"token": 12312312334,
+					"expiry": 1474396643584
+				}
+				addUserCloudServices('1', "dropbox", authDetails, callbackFunction);
 				alert("Added Connection!");
 			}
 		}

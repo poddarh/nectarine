@@ -37,37 +37,17 @@ export function getFilesAndFolders(userId, cloud_service, cb){
   emulateServerReturn({success:true}, cb);
 }
 
-export function addUserCloudServices(userID, type, cb) {
+export function addUserCloudServices(userID, type, authDetails, cb) {
   var userData = readDocument('users', userID);
   //var cloudServicesData = readDocument('cloud_services', );
-  var cloudServicesData = userData.cloud_services;
-  var newCloudServicesData = {};
-  if(type === "google_drive") {
-    //cloudServicesData = readDocument(userData.cloud_services, "google_drive");
-    newCloudServicesData = {
-      "google_drive": {
-        "token": 234236554,
-        "expiry": 1434396643584
-      }
-    }
-  }
-  else if(type === "dropbox") {
-    //cloudServicesData = readDocument(userData.cloud_services, "dropbox");
-    newCloudServicesData = {
-      "dropbox": {
-        "token": 234236554,
-        "expiry": 1434396643584
-      }
-    }
-  }
-  newCloudServicesData = addDocument(userData.cloud_services, newCloudServicesData)
-  emulateServerReturn(newCloudServicesData, cb);
+  userData.cloud_services[type] = authDetails
+  writeDocument('users', userData);
+  emulateServerReturn(userData.cloud_services, cb);
 }
 
 export function removeUserCloudServices(userID, type, cb) {
   var userData = readDocument('users', userID);
-  var cloudServicesData = userData.cloud_services;
-  removeDocument(cloudServicesData, type)
-  //userData.cloudServices = userData.cloudServices.map()
-  emulateServerReturn(cloudServicesData, cb);
+  delete userData.cloud_services[type]
+  writeDocument('users', userData);
+  emulateServerReturn(userData.cloud_services, cb);
 }
