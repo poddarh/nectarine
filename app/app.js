@@ -9,7 +9,7 @@ import Contact from './components/contact.js';
 import Help from './components/help.js';
 import Home from './components/home.js';
 import MobileCloudServices from './components/mobile_cloud_services.js';
-import MobileFilesAndFolder from './components/mobile_files_and_folders.js';
+import MobileFilesAndFolders from './components/mobile_files_and_folders.js';
 import UserCloudServices from './components/user_cloud_services.js';
 import UserProfile from './components/user_profile.js';
 
@@ -49,7 +49,7 @@ if (document.getElementById('web-wrapper') !== null) {
     <Router history={browserHistory}>
       <Route path="/" component={MobileApp}>
         <IndexRoute component={MobileCloudServices} />
-        <Route path="files_and_folders" component={MobileFilesAndFolder} />
+        <Route path="files_and_folders/:service" component={MobileFilesAndFolders} />
       </Route>
     </Router>
   ),document.getElementById('mobile-wrapper'));

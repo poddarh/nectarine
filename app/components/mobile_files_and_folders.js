@@ -1,4 +1,5 @@
 import React from 'react';
+import {GetURLParameter} from '../server'
 
 export default class MobileFilesAndFolders extends React.Component {
 	render() {
@@ -6,7 +7,7 @@ export default class MobileFilesAndFolders extends React.Component {
       <div className="container">
         <div className="col-xs-12">
           <div className="row text-center title">
-            Showing Files and Folders from Google Drive
+            {'Showing Files and Folders from ' + this.props.params.service}
           </div>
 
           <div className="row text-center regular-text">
