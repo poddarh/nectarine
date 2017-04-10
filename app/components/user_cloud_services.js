@@ -27,7 +27,11 @@ export default class User_Cloud_Services extends React.Component {
 				alert("Removed Connection!");
 			} else {
 				// User clicked 'Connect Now' button.
-				addUserCloudServices('1', "google_drive", callbackFunction);
+				let authDetails = {
+					"token": 234236554,
+					"expiry": 1434396643584
+				}
+				addUserCloudServices('1', "google_drive", authDetails, callbackFunction);
 				alert("Added Connection!");
 			}
 		}
@@ -48,7 +52,10 @@ export default class User_Cloud_Services extends React.Component {
 				alert("Removed Connection!");
 			} else {
 				// User clicked 'Connect Now' button.
-				addUserCloudServices('1', "dropbox", callbackFunction);
+				let authDetails = {
+					"token": 12312312334
+				}
+				addUserCloudServices('1', "dropbox", authDetails, callbackFunction);
 				alert("Added Connection!");
 			}
 		}
@@ -57,19 +64,7 @@ export default class User_Cloud_Services extends React.Component {
 	didUserConnect(type) {
     // Look for a likeCounter entry with userId 4 -- which is the
     // current user.
-		if(type === "dropbox") {
-			if (this.state.cloud_services.dropbox === undefined){
-				return false;
-			}
-			return true;
-		}
-		if(type === "google_drive") {
-			if (this.state.cloud_services.google_drive === undefined){
-				return false;
-			}
-			return true;
-		}
-		return false;
+		return this.state.cloud_services[type] !== undefined;
   }
 
 	render() {
@@ -92,19 +87,28 @@ export default class User_Cloud_Services extends React.Component {
 						Select a Cloud Service
 					</div>
 					<div className="row text-center">
-						<img src="img/googledrive_logo.png"/>
-						<div className="cloudservices-alignment">
-							<span className={googleGlyph}></span>
+						<div className="col-xs-5">
+							<div className="pull-right">
+								<img src="img/googledrive_logo.png"/>
+								<div className="cloudservices-alignment">
+									<span className={googleGlyph}></span>
+								</div>
+								<div>
+									<button type="button" onClick={(e) => this.handleDriveButtonClick(e)}>{googleText}</button>
+								</div>
+							</div>
 						</div>
-						<div>
-							<button type="button" onClick={(e) => this.handleDriveButtonClick(e)}>{googleText}</button>
-						</div>
-						<img src="img/dropbox_logo.png"/>
-						<div className="cloudservices-alignment">
-							<span className={dropGlyph}></span>
-						</div>
-						<div>
-							<button type="button" onClick={(e) => this.handleDropboxButtonClick(e)}>{dropText}</button>
+						<div className="col-xs-2"></div>
+						<div className="col-xs-5">
+							<div className="pull-left">
+								<img src="img/dropbox_logo.png"/>
+								<div className="cloudservices-alignment">
+									<span className={dropGlyph}></span>
+								</div>
+								<div>
+									<button type="button" onClick={(e) => this.handleDropboxButtonClick(e)}>{dropText}</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
