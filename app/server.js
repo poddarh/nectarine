@@ -36,9 +36,11 @@ export function getUserCloudServices(userID, cb) {
 
 export function addUserCloudServices(userID, type, cb) {
   var userData = readDocument('users', userID);
+  //var cloudServicesData = readDocument('cloud_services', );
   var cloudServicesData = userData.cloud_services;
   var newCloudServicesData = {};
-  if(type == "google_drive") {
+  if(type === "google_drive") {
+    //cloudServicesData = readDocument(userData.cloud_services, "google_drive");
     newCloudServicesData = {
       "google_drive": {
         "token": 234236554,
@@ -46,7 +48,8 @@ export function addUserCloudServices(userID, type, cb) {
       }
     }
   }
-  else if(type == "dropbox") {
+  else if(type === "dropbox") {
+    //cloudServicesData = readDocument(userData.cloud_services, "dropbox");
     newCloudServicesData = {
       "dropbox": {
         "token": 234236554,
@@ -66,8 +69,8 @@ export function removeUserCloudServices(userID, type, cb) {
   emulateServerReturn(cloudServicesData, cb);
 }
 
-export function addToken(userID, token, cb) {
+/*export function addToken(userID, token, cb) {
   var userData = readDocument('users', userID);
   var tokenData = writeDocument('token', userData.token);
   emulateServerReturn(tokenData, cb);
-}
+}*/
