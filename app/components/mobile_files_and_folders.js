@@ -1,16 +1,24 @@
 import React from 'react';
+import {getUserData} from '../server'
 
 export default class MobileFilesAndFolders extends React.Component {
+
+	constructor(props){
+		super(props);
+		this.state = { "user": { } }
+		getUserData('1', (data) => {this.setState({user: data});})
+	}
+
 	render() {
 		return (
       <div className="container">
         <div className="col-xs-12">
           <div className="row text-center title">
-            Showing Files and Folders from Google Drive
+            {'Showing Files and Folders from ' + this.props.params.service}
           </div>
 
           <div className="row text-center regular-text">
-            Account Name: nectarine@example.com
+            Account Name: {this.state.user.email}
           </div>
 
           <div className="row files">

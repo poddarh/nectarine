@@ -30,3 +30,8 @@ export function getUserCloudServices(userID, cb) {
   var cloudServicesData = userData.cloud_services;
   emulateServerReturn(cloudServicesData, cb);
 }
+
+export function getFilesAndFolders(userId, cloud_service, cb){
+  //insert logic here
+  emulateServerReturn({success:true}, cb);
+}
