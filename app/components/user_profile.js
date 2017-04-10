@@ -72,21 +72,21 @@ export default class User_Profile extends React.Component {
 		e.preventDefault();
 		var newData = this.state.data;
 		if (newData.image == "img/profile-temp.jpg"){
-			newData.image = "img/camcamcamcam.jpg";
+			newData.image = "img/cam.jpg";
 		}
-		else if (newData.image == "img/camcamcamcam.jpg"){
-			newData.image = "img/fleesh.jpg";
+		else if (newData.image == "img/cam.jpg"){
+			newData.image = "img/ryan.jpg";
 		}
-		else if (newData.image == "img/fleesh.jpg"){
-			newData.image = "img/gregbrian.jpg";
+		else if (newData.image == "img/ryan.jpg"){
+			newData.image = "img/brian.jpg";
 		}
-		else if (newData.image == "img/gregbrian.jpg"){
-			newData.image = "img/jdog.jpg";
+		else if (newData.image == "img/brian.jpg"){
+			newData.image = "img/jackie.jpg";
 		}
-		else if (newData.image == "img/jdog.jpg"){
-			newData.image = "img/tooclose.jpg";
+		else if (newData.image == "img/jackie.jpg"){
+			newData.image = "img/harsh.jpg";
 		}
-		else if (newData.image == "img/tooclose.jpg"){
+		else if (newData.image == "img/harsh.jpg"){
 			newData.image = "img/profile-temp.jpg";
 		}
 		else{

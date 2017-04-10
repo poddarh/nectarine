@@ -57,7 +57,7 @@ export function addUserCloudServices(userID, type, cb) {
       }
     }
   }
-  newCloudServicesData = addDocument(cloudServicesData, newCloudServicesData)
+  newCloudServicesData = addDocument(userData.cloud_services, newCloudServicesData)
   emulateServerReturn(newCloudServicesData, cb);
 }
 

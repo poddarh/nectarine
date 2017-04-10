@@ -21,7 +21,7 @@ export default class User_Cloud_Services extends React.Component {
 				this.setState({cloud_services: updatedCloudServices});
 			};
 
-			if (this.didUserConnect("google_drive") == true) {
+			if (this.didUserConnect("google_drive") === true) {
 				// User clicked 'Delete Connection' button.
 				removeUserCloudServices('1', "google_drive", callbackFunction);
 			} else {
@@ -40,7 +40,7 @@ export default class User_Cloud_Services extends React.Component {
 				this.setState({cloud_services: updatedCloudServices});
 			};
 
-			if (this.didUserConnect("dropbox") == true) {
+			if (this.didUserConnect("dropbox") === true) {
 				// User clicked 'Connect Now' button.
 				addUserCloudServices('1', "dropbox", callbackFunction);
 				alert("Added Connection!");
@@ -55,14 +55,14 @@ export default class User_Cloud_Services extends React.Component {
 	didUserConnect(type) {
     // Look for a likeCounter entry with userId 4 -- which is the
     // current user.
-		if(type == "google_drive") {
-			if (this.state.cloud_services.google_drive === undefined){
+		if(type === "dropbox") {
+			if (this.state.cloud_services.dropbox === undefined){
 				return false;
 			}
 			return true;
 		}
-		else if(type == "dropbox") {
-			if (this.state.cloud_services.dropbox === undefined){
+		if(type === "google_drive") {
+			if (this.state.cloud_services.google_drive === undefined){
 				return false;
 			}
 			return true;
