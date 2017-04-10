@@ -1,7 +1,14 @@
 import React from 'react';
-import {GetURLParameter} from '../server'
+import {getUserData} from '../server'
 
 export default class MobileFilesAndFolders extends React.Component {
+
+	constructor(props){
+		super(props);
+		this.state = { "user": { } }
+		getUserData('1', (data) => {this.setState({user: data});})
+	}
+
 	render() {
 		return (
       <div className="container">
@@ -11,7 +18,7 @@ export default class MobileFilesAndFolders extends React.Component {
           </div>
 
           <div className="row text-center regular-text">
-            Account Name: nectarine@example.com
+            Account Name: {this.state.user.email}
           </div>
 
           <div className="row files">
