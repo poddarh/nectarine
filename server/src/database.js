@@ -1,6 +1,23 @@
 // Your startup's initial mock objects go here
 var initialData = {
-
+  "users": {
+    "1": {
+      "_id": 1,
+      "name": "Initial User",
+      "email": "user@email.com",
+      "password": "password",
+      "image": "img/profile-temp.jpg",
+      "cloud_services": {
+        "dropbox": {
+          "token": 234234534,
+          "expiry": 1435365643564
+        },
+        "google_drive": {
+          "token": 123
+        }
+      }
+    }
+  }
 };
 
 var data;
