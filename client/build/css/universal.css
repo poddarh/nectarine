@@ -158,7 +158,7 @@ a#help:active {
   text-align: center;
 }
 
-.myfiles-qr-code-column img {
+.myfiles-qr-code-column canvas {
   height: 100%;
   border: 10px solid #333;
   box-shadow: 1px 1px 5px #424242;

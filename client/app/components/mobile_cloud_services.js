@@ -1,6 +1,7 @@
 import React from 'react';
 import {getUserCloudServices} from '../server';
 import {Link} from 'react-router';
+import Peer from 'peerjs';
 
 export default class MobileCloudServices extends React.Component {
 
@@ -10,6 +11,15 @@ export default class MobileCloudServices extends React.Component {
 		getUserCloudServices('1', (data) => {this.setState({cloud_services: data});})
 	}
 
+	send(url) {
+		var peer = new Peer({key: 'lwjd5qra8257b9'});
+		peer.on('open', function() {
+			var conn = peer.connect(prompt("Enter Peer ID:"));
+			conn.on('open', function(){
+				conn.send({url: url});
+			});
+		});
+	}
 
 	render(){
 		return(
@@ -35,11 +45,11 @@ export default class MobileCloudServices extends React.Component {
             </div>
 
             <div className="row search">
-              <input type="text" className="form-control" placeholder="File URL"></input>
+              <input type="text" className="form-control" placeholder="File URL" id="url-input"></input>
             </div>
 
             <div className="row text-center">
-              <button className=".btn-primary .btn-lg share">Share!</button>
+              <button className=".btn-primary .btn-lg share" onClick={() => this.send(document.getElementById("url-input").value)}>Share!</button>
             </div>
           </div>
         </div>
