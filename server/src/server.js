@@ -2,7 +2,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
-var google = require('./google.js')
+
+var cloud_services = {
+  google_drive: require('./google.js'),
+  dropbox: require('./dropbox.js')
+}
 
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
@@ -48,23 +52,23 @@ app.get('/user/cloudservices', function(req, res) {
   res.send(userData.cloud_services);
 });
 
-app.get('/user/cloudservices/google_drive/oauth', function(req, res) {
+app.get('/user/cloudservices/:service/oauth', function(req, res) {
   res.writeHead(302, {
-  'Location': google.getOAuthURL()
+  'Location': cloud_services[req.params.service].getOAuthURL()
   });
   res.end();
 });
 
-app.post('/user/cloudservices/google_drive', function(req, res) {
+app.post('/user/cloudservices/:service', function(req, res) {
   var body = req.body;
-  google.getTokenFromKey(body, token => {
+  cloud_services[req.params.service].getTokenFromKey(body, token => {
     if(token == null) {
       res.status(403).end();
     } else {
       var userId = getUserIdFromToken(req.get('Authorization'));
       var userData = readDocument('users', userId);
       var addedToken = addDocument('cloud_services', token)
-      userData.cloud_services.google_drive = addedToken._id;
+      userData.cloud_services[req.params.service] = addedToken._id;
       writeDocument('users', userData);
       res.send(userData.cloud_services);
     }
@@ -81,18 +85,18 @@ app.delete('/user/cloudservices/:type', function(req, res) {
   res.send(userData.cloud_services);
 })
 
-app.get('/user/cloudservices/google_drive/files', function(req, res) {
+app.get('/user/cloudservices/:service/files', function(req, res) {
   var userId = getUserIdFromToken(req.get('Authorization'));
   var userData = readDocument('users', userId);
-  if (userData.cloud_services.google_drive == null) {
+  if (userData.cloud_services[req.params.service] == null) {
     res.status(403).end()
   }
-  var token = readDocument('cloud_services', userData.cloud_services.google_drive);
+  var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
 
   var parent = req.query.parent;
   var pageToken = req.query.pageToken;
 
-  google.getFiles(token, parent, pageToken, response => {
+  cloud_services[req.params.service].getFiles(token, parent, pageToken, response => {
     if(response == null) {
       res.status(500).end();
     } else {
