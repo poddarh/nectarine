@@ -8,6 +8,10 @@
     "serve": "webpack-dev-server --content-base build",
     "watch": "webpack --watch"
   },
+  "dependencies": {
+    "googleapis": "^19.0.0",
+    "google-auth-library": "^0.10.0"
+  },
   "devDependencies": {
     "babel": "^6.3.26",
     "babel-core": "^6.4.0",

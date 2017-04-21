@@ -96,10 +96,9 @@ export function sendContactEmail(form, cb) {
 }
 
 export function getUserCloudServices(userID, cb) {
-  var userData = readDocument('users', userID);
-  var cloudServicesData = userData.cloud_services;
-  emulateServerReturn(cloudServicesData, cb);
-
+  sendXHR('GET', '/user/cloudservices', undefined, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function getFilesAndFolders(userId, cloud_service, cb){
@@ -108,16 +107,13 @@ export function getFilesAndFolders(userId, cloud_service, cb){
 }
 
 export function addUserCloudServices(userID, type, authDetails, cb) {
-  var userData = readDocument('users', userID);
-  //var cloudServicesData = readDocument('cloud_services', );
-  userData.cloud_services[type] = authDetails
-  writeDocument('users', userData);
-  emulateServerReturn(userData.cloud_services, cb);
+  sendXHR('POST', '/user/cloudservices/' + type, authDetails, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function removeUserCloudServices(userID, type, cb) {
-  var userData = readDocument('users', userID);
-  delete userData.cloud_services[type]
-  writeDocument('users', userData);
-  emulateServerReturn(userData.cloud_services, cb);
+  sendXHR('DELETE', '/user/cloudservices/' + type, undefined, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }

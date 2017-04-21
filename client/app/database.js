@@ -14,14 +14,15 @@ var initialData = {
       "password": "password",
       "image": "img/profile-temp.jpg",
       "cloud_services": {
-        "dropbox": {
-          "token": 234234534,
-          "expiry": 1435365643564
-        },
-        "google_drive": {
-          "token": 123
-        }
+        "dropbox": 1
       }
+    }
+  },
+  "cloud_services": {
+    "1": {
+      "_id": 1,
+      "token": 234234534,
+      "expiry": 1435365643564
     }
   }
 };

@@ -2,10 +2,12 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
+var google = require('./google.js')
 
 var readDocument = database.readDocument;
 var writeDocument = database.writeDocument;
 var addDocument = database.addDocument;
+var deleteDocument = database.deleteDocument;
 
 var app = express();
 app.use(bodyParser.text());
@@ -40,7 +42,64 @@ function getUserIdFromToken(authorizationLine) {
 
 // Add custom endpoints here
 
+app.get('/user/cloudservices', function(req, res) {
+  var userId = getUserIdFromToken(req.get('Authorization'));
+  var userData = readDocument('users', userId);
+  res.send(userData.cloud_services);
+});
 
+app.get('/user/cloudservices/google_drive/oauth', function(req, res) {
+  res.writeHead(302, {
+  'Location': google.getOAuthURL()
+  });
+  res.end();
+});
+
+app.post('/user/cloudservices/google_drive', function(req, res) {
+  var body = req.body;
+  google.getTokenFromKey(body, token => {
+    if(token == null) {
+      res.status(403).end();
+    } else {
+      var userId = getUserIdFromToken(req.get('Authorization'));
+      var userData = readDocument('users', userId);
+      var addedToken = addDocument('cloud_services', token)
+      userData.cloud_services.google_drive = addedToken._id;
+      writeDocument('users', userData);
+      res.send(userData.cloud_services);
+    }
+  });
+})
+
+app.delete('/user/cloudservices/:type', function(req, res) {
+  var userId = getUserIdFromToken(req.get('Authorization'));
+  var userData = readDocument('users', userId);
+  var cloud_services_id = userData.cloud_services[req.params.type];
+  deleteDocument("cloud_services", cloud_services_id);
+  delete userData.cloud_services[req.params.type];
+  writeDocument('users', userData);
+  res.send(userData.cloud_services);
+})
+
+app.get('/user/cloudservices/google_drive/files', function(req, res) {
+  var userId = getUserIdFromToken(req.get('Authorization'));
+  var userData = readDocument('users', userId);
+  if (userData.cloud_services.google_drive == null) {
+    res.status(403).end()
+  }
+  var token = readDocument('cloud_services', userData.cloud_services.google_drive);
+
+  var parent = req.query.parent;
+  var pageToken = req.query.pageToken;
+
+  google.getFiles(token, parent, pageToken, response => {
+    if(response == null) {
+      res.status(500).end();
+    } else {
+      res.send(response);
+    }
+  });
+})
 
 // Reset the database.
 app.post('/resetdb', function(req, res) {

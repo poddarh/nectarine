@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyFiles.io</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+		function getURLParameter(name) {
+		  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+		}
+		window.opener.popup_callback(getURLParameter("code"));
+		window.close();
+	</script>
+</body>
+
+</html>

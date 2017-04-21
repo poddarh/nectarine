@@ -12,27 +12,52 @@ export default class User_Cloud_Services extends React.Component {
 		getUserCloudServices('1', (data) => {this.setState({cloud_services: data});})
 	}
 
+	windowpop(url, width, height) {
+    var leftPosition, topPosition;
+    //Allow for borders.
+    leftPosition = (window.screen.width / 2) - ((width / 2) + 10);
+    //Allow for title and status bars.
+    topPosition = (window.screen.height / 2) - ((height / 2) + 50);
+    //Open the window.
+    return window.open(url, "Window2", "status=no,height=" + height + ",width=" + width + ",resizable=yes,left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no");
+	}
+
 	handleDriveButtonClick(clickEvent) {
 		clickEvent.preventDefault();
 		// 0 represents the 'main mouse button' -- typically a left click
 		// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 		if (clickEvent.button === 0) {
-			var callbackFunction = (updatedCloudServices) => {
-				this.setState({cloud_services: updatedCloudServices});
-			};
-
 			if (this.didUserConnect("google_drive") === true) {
 				// User clicked 'Delete Connection' button.
-				removeUserCloudServices('1', "google_drive", callbackFunction);
-				alert("Removed Connection!");
+				removeUserCloudServices('1', "google_drive", (updatedCloudServices) => {
+					this.setState({cloud_services: updatedCloudServices});
+					alert("Removed Connection!");
+				});
 			} else {
 				// User clicked 'Connect Now' button.
-				let authDetails = {
-					"token": 234236554,
-					"expiry": 1434396643584
+				var url = "/user/cloudservices/google_drive/oauth";
+				var new_win = this.windowpop(url, 500, 600);
+				var is_in_callback = false;
+
+				var pollTimer = window.setInterval(function() {
+					if (new_win.closed !== false) { // !== is required for compatibility with Opera
+						window.clearInterval(pollTimer);
+						if (is_in_callback === false) {
+							alert("Error Adding Connection!");
+						}
+					}
+				}, 200);
+
+				window.popup_callback = (key) => {
+					is_in_callback = true;
+					let authDetails = {
+						"key": key
+					}
+					addUserCloudServices('1', "google_drive", authDetails, (updatedCloudServices) => {
+						this.setState({cloud_services: updatedCloudServices});
+						alert("Added Connection!");
+					});
 				}
-				addUserCloudServices('1', "google_drive", authDetails, callbackFunction);
-				alert("Added Connection!");
 			}
 		}
 	}
@@ -42,21 +67,37 @@ export default class User_Cloud_Services extends React.Component {
 		// 0 represents the 'main mouse button' -- typically a left click
 		// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
 		if (clickEvent.button === 0) {
-			var callbackFunction = (updatedCloudServices) => {
-				this.setState({cloud_services: updatedCloudServices});
-			};
-
 			if (this.didUserConnect("dropbox") === true) {
 				// User clicked 'Delete Connection' button.
-				removeUserCloudServices('1', "dropbox", callbackFunction);
-				alert("Removed Connection!");
+				removeUserCloudServices('1', "dropbox", (updatedCloudServices) => {
+					this.setState({cloud_services: updatedCloudServices});
+					alert("Removed Connection!");
+				});
 			} else {
 				// User clicked 'Connect Now' button.
-				let authDetails = {
-					"token": 12312312334
+				var url = "/user/cloudservices/dropbox/oauth";
+				var new_win = this.windowpop(url, 500, 600);
+				var is_in_callback = false;
+
+				var pollTimer = window.setInterval(function() {
+					if (new_win.closed !== false) { // !== is required for compatibility with Opera
+						window.clearInterval(pollTimer);
+						if (is_in_callback === false) {
+							alert("Error Adding Connection!");
+						}
+					}
+				}, 200);
+
+				window.popup_callback = (key) => {
+					is_in_callback = true;
+					let authDetails = {
+						"key": key
+					}
+					addUserCloudServices('1', "dropbox", authDetails, (updatedCloudServices) => {
+						this.setState({cloud_services: updatedCloudServices});
+						alert("Added Connection!");
+					});
 				}
-				addUserCloudServices('1', "dropbox", authDetails, callbackFunction);
-				alert("Added Connection!");
 			}
 		}
 	}
