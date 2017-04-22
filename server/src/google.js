@@ -1,6 +1,6 @@
 var google = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
-var oauth2cred = require('./google-oauth-cred.json');
+var oauth2cred = require('./credentials.json').cloud_services.google_drive;
 
 var oauth2Client = new OAuth2(oauth2cred.clientId, oauth2cred.clientSecret, oauth2cred.redirectUrl);
 

@@ -1,5 +1,5 @@
 var Dropbox = require('dropbox');
-var oauth2cred = require('./dropbox-oauth-cred.json');
+var oauth2cred = require('./credentials.json').cloud_services.dropbox;
 var request = require('request');
 
 function getTokenFromKey(data, callback) {
