@@ -4,6 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
+var ExpressPeerServer = require('peer').ExpressPeerServer;
 
 var cloud_services = {
   google_drive: require('./google.js'),
@@ -138,9 +139,13 @@ if (IS_PRODUCTION) {
   httpsServer.listen(port, function () {
     console.log('Example app listening on port ' + port + "!");
   });
+  app.use('/api', ExpressPeerServer(httpsServer, {}));
 } else {
+  var http = require('http');
+  var httpServer = http.createServer(app);
   var port = 3000;
-  app.listen(port, function () {
+  httpServer.listen(port, function () {
     console.log('Example app listening on port ' + port + "!");
   });
+  app.use('/api', ExpressPeerServer(httpServer, {}));
 }

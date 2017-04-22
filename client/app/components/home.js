@@ -6,11 +6,17 @@ import QRCode from 'qrcode';
 
 export default class Home extends React.Component {
 
+	constructor() {
+		super();
+		this.port = location.port ? parseInt(location.port) : (location.protocol == "https:" ? 443 : 80);
+		this.host = location.hostname;
+	}
+
 	makePeer(peer) {
 		if (peer != null) {
 			peer.destroy();
 		}
-		peer = new Peer({key: 'lwjd5qra8257b9'});
+		peer = new Peer({host: this.host, port: this.port, path: '/api'});
 		peer.on('open', function(id) {
 			console.log('My peer ID is: ' + id);
 

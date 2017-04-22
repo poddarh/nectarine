@@ -7,12 +7,14 @@ export default class MobileCloudServices extends React.Component {
 
 	constructor(props){
 		super(props);
+		this.port = location.port ? parseInt(location.port) : (location.protocol == "https:" ? 443 : 80);
+		this.host = location.hostname;
 		this.state = { "cloud_services": { } }
 		getUserCloudServices('1', (data) => {this.setState({cloud_services: data});})
 	}
 
 	send(url) {
-		var peer = new Peer({key: 'lwjd5qra8257b9'});
+		var peer = new Peer({host: this.host, port: this.port, path: '/api'});
 		peer.on('open', function() {
 			var conn = peer.connect(prompt("Enter Peer ID:"));
 			conn.on('open', function(){

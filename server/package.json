@@ -12,7 +12,8 @@
     "express": "^4.13.4",
     "express-jsonschema": "^1.1.0",
     "google-auth-library": "^0.10.0",
-    "googleapis": "^19.0.0"
+    "googleapis": "^19.0.0",
+    "peer": "^0.2.8"
   },
   "devDependencies": {
     "eslint": "^2.4.0",
