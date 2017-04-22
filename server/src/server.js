@@ -142,11 +142,11 @@ if (IS_PRODUCTION) {
   app.use('/api', ExpressPeerServer(httpsServer, {}));
 
   // set up plain http server with a route to redirect http to https
-  var http = express.createServer();
-  http.get('*',function(req,res){
+  var redirectApp = express();
+  redirectApp.get('*',function(req,res){
       res.redirect('https://' + req.get('host') + req.originalUrl)
   })
-  http.listen(80);
+  redirectApp.listen(80);
 } else {
   var http = require('http');
   var httpServer = http.createServer(app);
