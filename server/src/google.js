@@ -30,6 +30,7 @@ function getFiles(token, path, cursor, callback) {
     auth: oauth2Client,
     pageToken: cursor,
     pageSize: 100,
+    orderBy: "folder,name",
     fields: "nextPageToken, files(id, name, mimeType)",
     q: "'" + path + "' in parents"
   }, function(err, response) {

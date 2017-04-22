@@ -42,6 +42,13 @@ function getFiles(token, path, cursor, callback) {
         path: file.path_lower
       }
     });
+    res.files.sort(function(f1, f2) {
+      if (f1.type == f2.type) {
+        return f1.name.localeCompare(f2.name)
+      } else {
+        return f1.type == "folder" ? -1 : 1
+      }
+    })
     callback(res);
   };
 
