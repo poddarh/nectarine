@@ -125,7 +125,10 @@ app.use(function(err, req, res, next) {
   }
 });
 
-// Starts the server on port 3000!
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+// Starts the server on port specified!
+console.log(process.argv);
+const port = (process.argv.length > 2 && parseInt(process.argv[2]) == process.argv[2]) ? parseInt(process.argv[2]) : 3000;
+
+app.listen(port, function () {
+  console.log('Example app listening on port ' + port + "!");
 });
