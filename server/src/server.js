@@ -1,3 +1,5 @@
+const IS_PRODUCTION = (process.argv.length > 2 && process.argv[2] === "prod");
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
@@ -125,9 +127,20 @@ app.use(function(err, req, res, next) {
   }
 });
 
-// Starts the server on port specified!
-const port = (process.argv.length > 2 && parseInt(process.argv[2]) == process.argv[2]) ? parseInt(process.argv[2]) : 3000;
-
-app.listen(port, function () {
-  console.log('Example app listening on port ' + port + "!");
-});
+if (IS_PRODUCTION) {
+  var fs = require('fs');
+  var https = require('https');
+  var privateKey  = fs.readFileSync('sslcert/nectari_me.key', 'utf8');
+  var certificate = fs.readFileSync('sslcert/nectari_me.crt', 'utf8');
+  var credentials = {key: privateKey, cert: certificate};
+  var httpsServer = https.createServer(credentials, app);
+  var port = 443;
+  httpsServer.listen(port, function () {
+    console.log('Example app listening on port ' + port + "!");
+  });
+} else {
+  var port = 3000;
+  app.listen(port, function () {
+    console.log('Example app listening on port ' + port + "!");
+  });
+}
