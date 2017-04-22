@@ -140,6 +140,13 @@ if (IS_PRODUCTION) {
     console.log('Example app listening on port ' + port + "!");
   });
   app.use('/api', ExpressPeerServer(httpsServer, {}));
+
+  // set up plain http server with a route to redirect http to https
+  var http = express.createServer();
+  http.get('*',function(req,res){
+      res.redirect('https://' + req.get('host') + req.originalUrl)
+  })
+  http.listen(80);
 } else {
   var http = require('http');
   var httpServer = http.createServer(app);
