@@ -48,7 +48,7 @@ export default class Body extends React.Component {
             <a className="navbar-brand">
               <span className="glyphicon glyphicon-qrcode"></span>
             </a>
-            <p className="myfiles-title">myfiles.io</p>
+            <p className="myfiles-title">nectari.me</p>
           </div>
 
           <div className="myfiles-left-sidebar app-font">

@@ -6,7 +6,7 @@ export default class Help extends React.Component {
 		return (
 			<div>
 				<div className="col-md-8">
-					<h1>Workflow</h1> myFiles is a platform for using your cell phone to authorize foreign devices to access your personal media
+					<h1>Workflow</h1> nectari.me is a platform for using your cell phone to authorize foreign devices to access your personal media
 						<h3>Step 1</h3>
 						Select the image you want to share, either out of your phones photo storage, or, if you are logged in, your Dropbox or Google Drive files
 						<h3>Step 2</h3>
