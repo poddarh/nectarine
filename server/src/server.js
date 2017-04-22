@@ -93,12 +93,12 @@ app.get('/user/cloudservices/:service/files', function(req, res) {
   }
   var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
 
-  var parent = req.query.parent;
-  var pageToken = req.query.pageToken;
+  var path = req.query.path;
+  var cursor = req.query.cursor;
 
-  cloud_services[req.params.service].getFiles(token, parent, pageToken, response => {
+  cloud_services[req.params.service].getFiles(token, path, cursor, response => {
     if(response == null) {
-      res.status(500).end();
+      res.status(400).end();
     } else {
       res.send(response);
     }

@@ -7,18 +7,10 @@ var initialData = {
       "email": "user@email.com",
       "password": "password",
       "image": "img/profile-temp.jpg",
-      "cloud_services": {
-        "dropbox": 1
-      }
+      "cloud_services": {}
     }
   },
-  "cloud_services": {
-    "1": {
-      "_id": 1,
-      "token": 234234534,
-      "expiry": 1435365643564
-    }
-  }
+  "cloud_services": {}
 };
 
 var data;

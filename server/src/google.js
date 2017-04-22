@@ -17,28 +17,39 @@ function getTokenFromKey(data, callback) {
 }
 module.exports.getTokenFromKey = getTokenFromKey
 
-function getFiles(token, parent, pageToken, callback) {
-  if (parent == null) {
-    parent = "root";
+function getFiles(token, path, cursor, callback) {
+  if (path == null || path == "") {
+    path = "root";
   }
-  if (pageToken == null) {
-    pageToken = undefined;
+  if (cursor == null) {
+    cursor = undefined;
   }
   oauth2Client.credentials = token;
   var service = google.drive('v3');
   service.files.list({
     auth: oauth2Client,
-    pageToken: pageToken,
+    pageToken: cursor,
     pageSize: 100,
     fields: "nextPageToken, files(id, name, mimeType)",
-    q: "'" + parent + "' in parents"
+    q: "'" + path + "' in parents"
   }, function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
       callback(null);
     }
-    response.files.map(file => file.mimeType === "application/vnd.google-apps.folder" ? file.type = "folder" : file.type = "file")
-    callback(response);
+    var res = { path: path };
+    if (response.nextPageToken !== undefined) {
+      res.cursor = response.nextPageToken;
+    }
+    res.files = response.files.map(file => {
+      return {
+        id: file.id,
+        name: file.name,
+        type: file.mimeType === "application/vnd.google-apps.folder" ? file.type = "folder" : file.type = "file",
+        path: file.id
+      }
+    });
+    callback(res);
   });
 }
 module.exports.getFiles = getFiles

@@ -25,19 +25,42 @@ function getTokenFromKey(data, callback) {
 }
 module.exports.getTokenFromKey = getTokenFromKey
 
-function getFiles(token, parent, pageToken, callback) {
-  if (parent == null) {
-    parent = '';
+function getFiles(token, path, cursor, callback) {
+  if (path == null) {
+    path = '';
   }
-  var dbx = new Dropbox({ accessToken: token.access_token });
-  dbx.filesListFolder({path: parent})
-    .then(function(response) {
-      callback(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-      callback(null);
+  var whenSuccess = function(response) {
+    var res = { path: path };
+    if (response.has_more) {
+      res.cursor = response.cursor
+    }
+    res.files = response.entries.map(file => {
+      return {
+        id: file.id,
+        name: file.name,
+        type: file[".tag"],
+        path: file.path_lower
+      }
     });
+    callback(res);
+  };
+
+  var dbx = new Dropbox({ accessToken: token.access_token });
+  if (cursor == null || cursor == "") {
+    dbx.filesListFolder({path: path})
+      .then(whenSuccess)
+      .catch(function(error) {
+        console.log(error);
+        callback(null);
+      });
+  } else {
+    dbx.filesListFolderContinue({cursor: cursor})
+      .then(whenSuccess)
+      .catch(function(error) {
+        console.log(error);
+        callback(null);
+      });
+  }
 }
 module.exports.getFiles = getFiles
 
