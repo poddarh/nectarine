@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {resetDatabase} from '../database.js';
+import {resetdb} from '../server.js';
 
 export default class Body extends React.Component {
 
@@ -60,7 +60,7 @@ export default class Body extends React.Component {
                 <li>
                   <a href="#" onClick={e => {
                       e.preventDefault();
-                      resetDatabase();
+                      resetdb();
                       window.alert("Database reset! Refreshing the page now...");
                       document.location.reload(false);
                     }}>

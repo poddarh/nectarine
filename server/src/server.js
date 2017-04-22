@@ -109,7 +109,7 @@ app.get('/user/cloudservices/:service/files', function(req, res) {
 app.post('/resetdb', function(req, res) {
   console.log("Resetting database...");
 	database.resetDatabase();
-  res.send();
+  res.send({ success: true });
 });
 
 /**

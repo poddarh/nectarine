@@ -117,3 +117,7 @@ export function removeUserCloudServices(userID, type, cb) {
     cb(JSON.parse(xhr.responseText));
   });
 }
+
+export function resetdb() {
+  sendXHR('POST', '/resetdb', undefined, () => {});
+}
