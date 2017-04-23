@@ -49,6 +49,20 @@ function getUserIdFromToken(authorizationLine) {
 
 // Add custom endpoints here
 
+// getUserData
+app.get('/users/:userId', function(req, res) {
+  var userId = req.params.userId;
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userIdNumber = parseInt(userId, 10);
+  if (fromUser === userIdNumber) {
+    var userData = readDocument('users', userId);
+    res.send(userData);
+  } else {
+    // 401: Unauthorized request.
+    res.status(401).end();
+  }
+});
+
 app.get('/user/cloudservices', function(req, res) {
   var userId = getUserIdFromToken(req.get('Authorization'));
   var userData = readDocument('users', userId);

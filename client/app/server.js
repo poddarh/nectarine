@@ -80,9 +80,10 @@ function emulateServerReturn(data, cb) {
   }, 4);
 }
 
-export function getUserData(userId, cb) {
-  var userData = readDocument('users', userId);
-  emulateServerReturn(userData, cb);
+export function getUserData(user, cb) {
+  sendXHR('GET', '/users/1', undefined, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function updateUserData(data, cb) {
