@@ -41,13 +41,21 @@ export default class Home extends React.Component {
 		return peer;
 	}
 
-	startListening() {
-		var peer = this.makePeer(null);
-		window.setInterval(() => peer = this.makePeer(peer), 30000);
+	componentDidMount() {
+		this.peer = this.makePeer(this.peer);
+		this.interval = window.setInterval(() => this.peer = this.makePeer(this.peer), 30000);
+	}
+
+	componentWillUnmount() {
+		if (this.peer) {
+			this.peer.destroy()
+		}
+		if (this.interval){
+			clearInterval(this.interval);
+		}
 	}
 
 	render() {
-		this.startListening();
 		return (
       <div>
           <div className="col-md-7 myfiles-qr-code-column">
