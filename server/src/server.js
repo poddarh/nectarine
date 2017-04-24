@@ -76,6 +76,18 @@ app.get('/user/cloudservices/:service/oauth', function(req, res) {
   res.end();
 });
 
+app.post('/email/:form', function(req,res) {
+  var userName = req.form.name;
+  var userEmail = req.form.email;
+  var userTopic = req.form.typeOfIssue;
+  var userMessage = req.form.question;
+  var userHeaders = 'From:' + userEmail +"/r/n";
+  userHeaders = 'CC:' + userEmail + "/r/n";
+  'mailto:contact@nectari.me', userTopic, userMessage, userHeaders
+  res.send(true);
+
+})
+
 app.post('/user/cloudservices/:service', function(req, res) {
   var body = req.body;
   cloud_services[req.params.service].getTokenFromKey(body, token => {
