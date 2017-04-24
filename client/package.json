@@ -9,10 +9,10 @@
     "watch": "webpack --watch"
   },
   "dependencies": {
-    "googleapis": "^19.0.0",
     "google-auth-library": "^0.10.0",
-    "peerjs": "^0.3.14",
-    "qrcode": "^0.8.1"
+    "googleapis": "^19.0.0",
+    "qrcode": "^0.8.1",
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "babel": "^6.3.26",
@@ -22,7 +22,7 @@
     "babel-preset-react": "^6.3.13",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.14.0",
-		"history": "^1.17.0",
+    "history": "^1.17.0",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-router": "^1.0.3",

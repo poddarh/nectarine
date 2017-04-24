@@ -1,7 +1,6 @@
 import React from 'react';
 import {getUserCloudServices} from '../server';
 import {Link} from 'react-router';
-import Peer from 'peerjs';
 
 export default class MobileCloudServices extends React.Component {
 
@@ -14,13 +13,13 @@ export default class MobileCloudServices extends React.Component {
 	}
 
 	send(url) {
-		var peer = new Peer({host: this.host, port: this.port, path: '/api'});
-		peer.on('open', function() {
-			var conn = peer.connect(prompt("Enter Peer ID:"));
-			conn.on('open', function(){
-				conn.send({url: url});
-			});
-		});
+		// var peer = new Peer({host: this.host, port: this.port, path: '/api'});
+		// peer.on('open', function() {
+		// 	var conn = peer.connect(prompt("Enter Peer ID:"));
+		// 	conn.on('open', function(){
+		// 		conn.send({url: url});
+		// 	});
+		// });
 	}
 
 	render(){
