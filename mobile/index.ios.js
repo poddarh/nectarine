@@ -5,14 +5,14 @@
  */
 
 import React, { Component } from 'react';
-import { AppRegistry, Navigator, Text } from 'react-native';
+import { AppRegistry, Navigator, Text, NavigatorIOS } from 'react-native';
 
 var styles = require('./style');
 var MobileCloudServices = require('./MobileCloudServices.js')
 
 export default class mobile extends Component {
     renderScene ( route, navigator ) {
-      return <route.component navigator={navigator} />
+      return <route.component navigator={navigator} serviceName={route.serviceName}/>
     }
 
   render() {

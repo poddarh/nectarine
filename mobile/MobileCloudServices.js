@@ -11,8 +11,8 @@ export class MobileCloudServices extends Component {
     this.pressButton = this.pressButton.bind(this);
   }
 
-  pressButton(){
-    this.props.navigator.push({component: MobileFilesAndFolders});
+  pressButton(service){
+    this.props.navigator.push({component: MobileFilesAndFolders, serviceName: service});
   }
 
   render(){
@@ -21,10 +21,12 @@ export class MobileCloudServices extends Component {
         <View style={{alignItems: 'center'}}>
           <Text style={styles.title}>Select a Cloud Service</Text>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <TouchableHighlight onPress={this.pressButton}>
+            <TouchableHighlight onPress={() => this.pressButton("Google Drive")}>
               <Image source={require('./assets/googledrive_logo.png')} style={styles.img}/>
             </TouchableHighlight>
-            <Image source={require('./assets/dropbox_logo.png')} style={styles.img}/>
+            <TouchableHighlight onPress={() => this.pressButton("Dropbox")}>
+              <Image source={require('./assets/dropbox_logo.png')} style={styles.img}/>
+            </TouchableHighlight>
           </View>
         </View>
       </ScrollView>
