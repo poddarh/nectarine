@@ -11,19 +11,10 @@ class MobileFilesAndFolders extends Component {
   success(result){
     VibrationIOS.vibrate();
     console.log(result);
-    this.send("www.google.com", parseInt(result));
-    this.props.navigator.pop();
+    sendXHR('POST', '/peer/url', {peerId: result, url: "www.google.com"}, (xhr) => {
+      this.props.navigator.pop();
+    })
   }
-
-  send(url, peerId) {
-        var peer = new Peer({host: "nectari.me", port: "443", path: '/api', secure: true});
-        peer.on('open', function() {
-            var conn = peer.connect(peerId);
-            conn.on('open', function(){
-                conn.send({url: url});
-            });
-        });
-    }
 
   constructor(props){
     super(props);
