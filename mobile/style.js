@@ -36,4 +36,17 @@ module.exports = StyleSheet.create({
    justifyContent: 'flex-end',
    alignItems: 'center'
   },
+  share: {
+    borderRadius: 5,
+    borderColor: 'white',
+    backgroundColor: '#474747',
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 5
+  },
+  text: {
+    fontFamily: 'Montserrat',
+    color: 'white',
+    fontSize: 20
+  }
 });

@@ -12,7 +12,7 @@ export class MobileCloudServices extends Component {
   }
 
   pressButton(service){
-    this.props.navigator.push({component: MobileFilesAndFolders, serviceName: service});
+    this.props.navigator.push({component: MobileFilesAndFolders, serviceName: service, path: ""});
   }
 
   render(){
@@ -21,10 +21,10 @@ export class MobileCloudServices extends Component {
         <View style={{alignItems: 'center'}}>
           <Text style={styles.title}>Select a Cloud Service</Text>
           <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-            <TouchableHighlight onPress={() => this.pressButton("Google Drive")}>
+            <TouchableHighlight onPress={() => this.pressButton("google_drive")}>
               <Image source={require('./assets/googledrive_logo.png')} style={styles.img}/>
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => this.pressButton("Dropbox")}>
+            <TouchableHighlight onPress={() => this.pressButton("dropbox")}>
               <Image source={require('./assets/dropbox_logo.png')} style={styles.img}/>
             </TouchableHighlight>
           </View>

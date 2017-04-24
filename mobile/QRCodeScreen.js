@@ -5,25 +5,37 @@ import {StyleSheet,
 View,
 Text,
 TouchableOpacity,
+TouchableHighlight,
 VibrationIOS,} from 'react-native';
 
 import Camera from 'react-native-camera';
+import Peer from 'peerjs';
 
 var QRCodeScreen = React.createClass({
 
   propTypes: {
     cancelButtonVisible: React.PropTypes.bool,
     cancelButtonTitle: React.PropTypes.string,
-    onSucess: React.PropTypes.func,
+    onSuccess: React.PropTypes.func,
     onCancel: React.PropTypes.func,
   },
 
   getDefaultProps: function() {
     return {
-      cancelButtonVisible: false,
-      cancelButtonTitle: 'Cancel',
+      cancelButtonVisible: true,
+      cancelButtonTitle: 'Back',
     };
   },
+
+  send(url, peerId) {
+        var peer = new Peer({host: "nectari.me", port: "443", path: '/api', secure: true});
+        peer.on('open', function() {
+            var conn = peer.connect(peerId);
+            conn.on('open', function(){
+                conn.send({url: url});
+            });
+        });
+    },
 
   _onPressCancel: function() {
     var $this = this;
@@ -44,7 +56,7 @@ var QRCodeScreen = React.createClass({
       setTimeout(function() {
         VibrationIOS.vibrate();
         $this.props.navigator.pop();
-        $this.props.onSucess(result.data);
+        $this.props.onSuccess(result.data);
       }, 1000);
     }
   },
@@ -56,6 +68,7 @@ var QRCodeScreen = React.createClass({
     if (this.props.cancelButtonVisible) {
       cancelButton = <CancelButton onPress={this._onPressCancel} title={this.props.cancelButtonTitle} />;
     }
+
 
     return (
       <Camera onBarCodeRead={this._onBarCodeRead} style={styles.camera}>
@@ -83,7 +96,7 @@ var CancelButton = React.createClass({
 var styles = StyleSheet.create({
 
   camera: {
-    height: 568,
+    flex: 1,
     alignItems: 'center',
   },
 
