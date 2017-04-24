@@ -5,42 +5,49 @@
  */
 
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet } from 'react-native';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 
 export default class mobile extends Component {
-  render(){
-		return(
-        <div className="container">
-          <div className="col-xs-12">
-            <div className="row text-center title">
-              Select a Cloud Service
-            </div>
-
-            <div className="row text-center">
-							{(function(bool) {
-								if(bool)
-									return <Link to={"/files_and_folders/Google Drive"}><img src="img/googledrive_logo.png"/></Link>
-							})(this.state.cloud_services.google_drive !== undefined)}
-							{(function(bool) {
-								if(bool)
-									return <Link to="/files_and_folders/Dropbox"><img src="img/dropbox_logo.png"/></Link>
-							})(this.state.cloud_services.dropbox !== undefined)}
-            </div>
-
-            <div className="row text-center title">
-              Alternatively, enter the URL for the file you wish to share
-            </div>
-
-            <div className="row search">
-              <input type="text" className="form-control" placeholder="File URL" id="url-input"></input>
-            </div>
-
-            <div className="row text-center">
-              <button className=".btn-primary .btn-lg share" onClick={() => this.send(document.getElementById("url-input").value)}>Share!</button>
-            </div>
-          </div>
-        </div>
-		)
-	}
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.welcome}>
+          Welcome to React Native!
+        </Text>
+        <Text style={styles.instructions}>
+          To get started, edit index.ios.js
+        </Text>
+        <Text style={styles.instructions}>
+          Press Cmd+R to reload,{'\n'}
+          Cmd+D or shake for dev menu
+        </Text>
+      </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
+
 AppRegistry.registerComponent('mobile', () => mobile);
