@@ -8,7 +8,7 @@ module.exports = StyleSheet.create({
   title: {
     fontFamily: 'Montserrat',
     fontSize: 25,
-    fontWeight: "300",
+    fontWeight: '300',
     color: 'white',
   },
   img: {
@@ -27,5 +27,14 @@ module.exports = StyleSheet.create({
       margin: 'auto',
       marginTop: 25,
       marginBottom: 25,
+  },
+  text: {
+    color: 'black',
+    backgroundColor: 'white',
+    fontSize: 30,
+    margin: 80,
+  },
+  container: {
+    flex: 1,
   },
 });
