@@ -37,20 +37,21 @@ function getFiles(token, path, cursor, callback) {
     if (err) {
       console.log('The API returned an error: ' + err);
       callback(null);
-    }
-    var res = { path: path };
-    if (response.nextPageToken !== undefined) {
-      res.cursor = response.nextPageToken;
-    }
-    res.files = response.files.map(file => {
-      return {
-        id: file.id,
-        name: file.name,
-        type: file.mimeType === "application/vnd.google-apps.folder" ? file.type = "folder" : file.type = "file",
-        path: file.id
+    } else {
+      var res = { path: path };
+      if (response.nextPageToken !== undefined) {
+        res.cursor = response.nextPageToken;
       }
-    });
-    callback(res);
+      res.files = response.files.map(file => {
+        return {
+          id: file.id,
+          name: file.name,
+          type: file.mimeType === "application/vnd.google-apps.folder" ? file.type = "folder" : file.type = "file",
+          path: file.id
+        }
+      });
+      callback(res);
+    }
   });
 }
 module.exports.getFiles = getFiles

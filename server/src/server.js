@@ -108,9 +108,11 @@ app.delete('/user/cloudservices/:type', function(req, res) {
   var userId = getUserIdFromToken(req.get('Authorization'));
   var userData = readDocument('users', userId);
   var cloud_services_id = userData.cloud_services[req.params.type];
-  deleteDocument("cloud_services", cloud_services_id);
-  delete userData.cloud_services[req.params.type];
-  writeDocument('users', userData);
+  if (cloud_services_id != null) {
+    deleteDocument("cloud_services", cloud_services_id);
+    delete userData.cloud_services[req.params.type];
+    writeDocument('users', userData);
+  }
   res.send(userData.cloud_services);
 })
 
