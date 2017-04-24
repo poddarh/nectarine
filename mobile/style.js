@@ -28,13 +28,12 @@ module.exports = StyleSheet.create({
       marginTop: 25,
       marginBottom: 25,
   },
-  text: {
-    color: 'black',
-    backgroundColor: 'white',
-    fontSize: 30,
-    margin: 80,
-  },
   container: {
     flex: 1,
+  },
+  preview: {
+   flex: 1,
+   justifyContent: 'flex-end',
+   alignItems: 'center'
   },
 });
