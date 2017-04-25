@@ -9,7 +9,6 @@ TouchableHighlight,
 VibrationIOS,} from 'react-native';
 
 import Camera from 'react-native-camera';
-import Peer from 'peerjs';
 
 var QRCodeScreen = React.createClass({
 
@@ -26,16 +25,6 @@ var QRCodeScreen = React.createClass({
       cancelButtonTitle: 'Back',
     };
   },
-
-  send(url, peerId) {
-        var peer = new Peer({host: "nectari.me", port: "443", path: '/api', secure: true});
-        peer.on('open', function() {
-            var conn = peer.connect(peerId);
-            conn.on('open', function(){
-                conn.send({url: url});
-            });
-        });
-    },
 
   _onPressCancel: function() {
     var $this = this;
@@ -55,7 +44,6 @@ var QRCodeScreen = React.createClass({
 
       setTimeout(function() {
         VibrationIOS.vibrate();
-        $this.props.navigator.pop();
         $this.props.onSuccess(result.data);
       }, 1000);
     }

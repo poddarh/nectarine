@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View, Image, ScrollView, TextInput, Navigator, TouchableHighlight, VibrationIOS } from 'react-native';
-import { sendXHR } from './server';
+import { sendXHR, sendXHRWithoutURL } from './server';
 import Peer from 'peerjs';
 
 var styles = require('./style');
@@ -11,7 +11,7 @@ class MobileFilesAndFolders extends Component {
   success(result){
     VibrationIOS.vibrate();
     console.log(result);
-    sendXHR('POST', '/peer/url', {peerId: result, url: "www.google.com"}, (xhr) => {
+    sendXHR('POST', '/device/url', {deviceId: result, url: "http://yahoo.com"}, (xhr) => {
       this.props.navigator.pop();
     })
   }

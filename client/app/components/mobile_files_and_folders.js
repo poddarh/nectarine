@@ -1,12 +1,21 @@
 import React from 'react';
-import {getUserData} from '../server'
+import { getUserData, sendXHR } from '../server'
 
 export default class MobileFilesAndFolders extends React.Component {
 
 	constructor(props){
 		super(props);
-		this.state = { "user": { } }
+		this.state = { "user": { }, data: { files: [], path: "" } }
 		getUserData('1', (data) => {this.setState({user: data});})
+		sendXHR('GET', '/user/cloudservices/' + this.parseServiceName() + '/files', { }, (xhr) => {
+				var data = JSON.parse(xhr.responseText)
+				this.setState({data: data});
+		})
+	}
+
+	parseServiceName(){
+		if(this.props.params.service === "Google Drive"){ return "google_drive" }
+		else { return "dropbox" }
 	}
 
 	render() {
@@ -24,41 +33,24 @@ export default class MobileFilesAndFolders extends React.Component {
           <div className="row files">
             <div className="col-xs-2 text-center"></div>
             <div className="col-xs-8 text-center">
-              <button className=".btn-primary share more-files">
-                <span className="glyphicon glyphicon-folder-open"></span>
-                Folder1
-              </button>
-              <button className=".btn-primary share more-files">
-                <span className="glyphicon glyphicon-folder-open"></span>
-                Folder2
-              </button>
-              <button className=".btn-primary share more-files">
-                <span className="glyphicon glyphicon-folder-open"></span>
-                Folder3
-              </button>
+							{this.state.data.files.map((file) => {
+								if(file.type === "folder"){
+									return <button className=".btn-primary share more-files"><span className="glyphicon glyphicon-folder-open"></span>{file.name}</button>
+									}
+							})}
             </div>
             <div className="col-xs-2 text-center"></div>
           </div>
           <div className="row files">
             <div className="col-xs-2 text-center"></div>
             <div className="col-xs-8 text-center">
-              <button className=".btn-primary share more-files">
-                <span className="glyphicon glyphicon-open-file"></span>
-                File1
-              </button>
-              <button className=".btn-primary share more-files">
-                <span className="glyphicon glyphicon-open-file"></span>
-                File2
-              </button>
-              <button className=".btn-primary share more-files">
-                <span className="glyphicon glyphicon-open-file"></span>
-                  File3
-              </button>
+							{this.state.data.files.map((file) => {
+								if(file.type === "file"){
+									return <button className=".btn-primary share more-files"><span className="glyphicon glyphicon-folder-open"></span>{file.name}</button>
+								}
+							})}
             </div>
             <div className="col-xs-2 text-center"></div>
-          </div>
-          <div className="row text-center regular-text">
-            ...etc, etc, etc
           </div>
         </div>
       </div>
