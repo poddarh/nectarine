@@ -13,12 +13,9 @@
     "express-jsonschema": "^1.1.0",
     "google-auth-library": "^0.10.0",
     "googleapis": "^19.0.0",
-<<<<<<< HEAD
     "peer": "^0.2.8",
-    "sendmail": "^1.1.1"
-=======
+    "sendmail": "^1.1.1",
     "socket.io": "^1.7.3"
->>>>>>> 92aafff40ca50a77be4865b71b474fa03406a136
   },
   "devDependencies": {
     "eslint": "^2.4.0",
