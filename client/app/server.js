@@ -93,7 +93,7 @@ export function updateUserData(data, cb) {
 }
 
 export function sendContactEmail(data, cb) {
-  sendXHR('POST', '/email/' + data.email, data, (xhr) => {
+  sendXHR('POST', '/email', data, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 	//Logic to send an email here!

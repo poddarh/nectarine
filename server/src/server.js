@@ -126,20 +126,35 @@ app.get('/user/cloudservices/:service/oauth', function(req, res) {
   res.end();
 });
 
-app.post('/email/:data', function(req,res) {
-  var body = req.params.data;
-  console.log(body);
-  console.log(body.email);
-  sendmail({
-    from: body,
-    to: 'contact@nectari.me',
-    subject: req.body.typeOfIssue,
-    html: req.body.name + req.body.question
-  }, function (err, reply) {
-    console.log(err && err.stack)
-    console.dir(reply)
-  })
-  res.send({ success : true });
+app.post('/email', function(req,res) {
+  var userID = getUserIdFromToken(req.get('Authorization'));
+  if (userID !== null){
+    var body = req.body;
+    var email = body.email;
+    var subject = body.typeOfIssue;
+    var name = body.name;
+    var question = body.question;
+    sendmail({
+      from: email,
+      to: 'contact@nectari.me',
+      subject: subject,
+      html: name + "asks " + question
+    }, function (err, reply) {
+      console.log(err && err.stack)
+      console.dir(reply)
+    })
+    res.send({ success : true });
+  }
+  // var email = req.params.data.email;
+  // var subject = req.params.data.subject;
+  // var name = req.params.data.name;
+  // var question = req.params.data.question;
+  // console.log(email);
+  // console.log(subject);
+  // console.log(question);
+//  console.log(body.email);
+
+
 });
 
 app.post('/user/cloudservices/:service', function(req, res) {
