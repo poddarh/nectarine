@@ -4,7 +4,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
-var ExpressPeerServer = require('peer').ExpressPeerServer;
+
+var SocketIO = require('socket.io');
 
 var cloud_services = {
   google_drive: require('./google.js'),
@@ -20,6 +21,33 @@ var app = express();
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 app.use(express.static('../client/build'));
+
+var server = null;
+var port = 0;
+
+if (IS_PRODUCTION) {
+  var fs = require('fs');
+  var https = require('https');
+  var privateKey  = fs.readFileSync('sslcert/nectari_me.key', 'utf8');
+  var certificate = fs.readFileSync('sslcert/nectari_me.crt', 'utf8');
+  var credentials = {key: privateKey, cert: certificate};
+  server = https.createServer(credentials, app);
+  port = 443;
+
+  // set up plain http server with a route to redirect http to https
+  var redirectApp = express();
+  redirectApp.get('*',function(req,res){
+      res.redirect('https://' + req.get('host') + req.originalUrl)
+  })
+  redirectApp.listen(80);
+}
+else {
+  var http = require('http');
+  server = http.createServer(app);
+  port = 3000;
+}
+
+var io = SocketIO(server);
 
 /**
  * Get the user ID from a token. Returns -1 (an invalid ID)
@@ -157,6 +185,37 @@ app.get('/user/cloudservices/:service/files', function(req, res) {
   });
 })
 
+io.on('connection', function (socket) {
+  socket.send({action: 'init'});
+  setTimeout(() => {
+    socket.disconnect(true);
+  }, 45000);
+});
+
+app.post('/device/url', function(req, res) {
+  var userId = getUserIdFromToken(req.get('Authorization'));
+  if (userId != null) {
+    var body = req.body;
+    var url = body.url;
+    var socketId = body.deviceId;
+    var socket = io.sockets.sockets[socketId];
+    if (socket != null) {
+      socket.send({action: 'url', url: url}, (data) => {
+        if (data.success) {
+          res.send();
+        } else {
+          res.status(500).end();
+        }
+        socket.disconnect(true);
+      });
+    } else {
+      res.status(400).end();
+    }
+  } else {
+    res.status(401).end();
+  }
+})
+
 // Reset the database.
 app.post('/resetdb', function(req, res) {
   console.log("Resetting database...");
@@ -177,31 +236,6 @@ app.use(function(err, req, res, next) {
   }
 });
 
-if (IS_PRODUCTION) {
-  var fs = require('fs');
-  var https = require('https');
-  var privateKey  = fs.readFileSync('sslcert/nectari_me.key', 'utf8');
-  var certificate = fs.readFileSync('sslcert/nectari_me.crt', 'utf8');
-  var credentials = {key: privateKey, cert: certificate};
-  var httpsServer = https.createServer(credentials, app);
-  var port = 443;
-  httpsServer.listen(port, function () {
-    console.log('Example app listening on port ' + port + "!");
-  });
-  app.use('/api', ExpressPeerServer(httpsServer, {}));
-
-  // set up plain http server with a route to redirect http to https
-  var redirectApp = express();
-  redirectApp.get('*',function(req,res){
-      res.redirect('https://' + req.get('host') + req.originalUrl)
-  })
-  redirectApp.listen(80);
-} else {
-  var http = require('http');
-  var httpServer = http.createServer(app);
-  var port = 3000;
-  httpServer.listen(port, function () {
-    console.log('Example app listening on port ' + port + "!");
-  });
-  app.use('/api', ExpressPeerServer(httpServer, {}));
-}
+server.listen(port, function () {
+  console.log('Example app listening on port ' + port + "!");
+});

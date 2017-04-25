@@ -13,7 +13,7 @@
     "express-jsonschema": "^1.1.0",
     "google-auth-library": "^0.10.0",
     "googleapis": "^19.0.0",
-    "peer": "^0.2.8"
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "eslint": "^2.4.0",
