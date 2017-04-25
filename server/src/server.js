@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
 var ExpressPeerServer = require('peer').ExpressPeerServer;
-var sendmail = require('sendmail')({silent: true, devPort: 3000});
+var sendmail = require('sendmail')({silent: true, devPort: 465});
 var SocketIO = require('socket.io');
 
 var cloud_services = {
@@ -134,25 +134,25 @@ app.post('/email', function(req,res) {
     var subject = body.typeOfIssue;
     var name = body.name;
     var question = body.question;
+    console.log(email);
+    console.log(subject);
+    console.log(question);
     sendmail({
       from: email,
       to: 'contact@nectari.me',
       subject: subject,
-      html: name + "asks " + question
+      text: name + "asks " + question
     }, function (err, reply) {
       console.log(err && err.stack)
       console.dir(reply)
-    })
+    });
     res.send({ success : true });
   }
   // var email = req.params.data.email;
   // var subject = req.params.data.subject;
   // var name = req.params.data.name;
   // var question = req.params.data.question;
-  // console.log(email);
-  // console.log(subject);
-  // console.log(question);
-//  console.log(body.email);
+
 
 
 });
