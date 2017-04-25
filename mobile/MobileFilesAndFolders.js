@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Image, ScrollView, TextInput, Navigator, TouchableHighlight, VibrationIOS } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, Image, ScrollView, TextInput, Navigator, TouchableHighlight } from 'react-native';
 import { sendXHR } from './server';
 import Peer from 'peerjs';
 
@@ -9,21 +9,19 @@ var QRCodeScreen = require('./QRCodeScreen');
 class MobileFilesAndFolders extends Component {
 
   success(result){
-    VibrationIOS.vibrate();
+    // VibrationIOS.vibrate();
     console.log(result);
-    this.send("www.google.com", parseInt(result));
-    this.props.navigator.pop();
+    sendXHR('GET', '/user/cloudservices/' + this.props.serviceName + '/file/' + this.selectedFile.id, undefined, (xhr) => {
+      this.send(xhr.responseText, result);
+      this.props.navigator.pop();
+    });
   }
 
   send(url, peerId) {
-        var peer = new Peer({host: "nectari.me", port: "443", path: '/api', secure: true});
-        peer.on('open', function() {
-            var conn = peer.connect(peerId);
-            conn.on('open', function(){
-                conn.send({url: url});
-            });
-        });
-    }
+    sendXHR('POST', '/device/url', {deviceId: peerId, url: url}, (xhr) => {
+      console.log(xhr.responseText);
+    });
+  }
 
   constructor(props){
     super(props);
@@ -43,7 +41,8 @@ class MobileFilesAndFolders extends Component {
     if (this.props.serviceName === "dropbox"){this.setState({service: "Dropbox"})};
   }
 
-  pressFile(){
+  pressFile(file){
+    this.selectedFile = file;
     this.props.navigator.push({component: QRCodeScreen, onSuccess: this.success});
   }
 
@@ -67,10 +66,10 @@ class MobileFilesAndFolders extends Component {
             </TouchableHighlight>
           {this.state.data.files.map((file) => {
             if (file.type === "file"){
-              return <TouchableHighlight onPress={this.pressFile} style={styles.share}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
+              return <TouchableHighlight onPress={() => this.pressFile(file)} style={styles.file}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
             }
             else{
-              return <TouchableHighlight onPress={() => this.pressFolder(file.path)} style={styles.share}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
+              return <TouchableHighlight onPress={() => this.pressFolder(file.path)} style={styles.folder}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
             }
           })}
         </View>

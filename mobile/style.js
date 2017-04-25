@@ -37,12 +37,40 @@ module.exports = StyleSheet.create({
    alignItems: 'center'
   },
   share: {
-    borderRadius: 5,
+    flex: 1,
+    borderRadius: 3,
     borderColor: 'white',
     backgroundColor: '#474747',
+    paddingTop: 10,
+    paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    margin: 5
+    margin: 5,
+    alignSelf: 'stretch'
+  },
+  file: {
+    flex: 1,
+    borderRadius: 3,
+    borderColor: 'white',
+    backgroundColor: '#474747',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 5,
+    alignSelf: 'stretch'
+  },
+  folder: {
+    flex: 1,
+    borderRadius: 3,
+    borderColor: 'white',
+    backgroundColor: '#779500',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    margin: 5,
+    alignSelf: 'stretch'
   },
   text: {
     fontFamily: 'Montserrat',
