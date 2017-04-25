@@ -12,7 +12,7 @@ var MobileCloudServices = require('./MobileCloudServices.js')
 
 export default class mobile extends Component {
     renderScene ( route, navigator ) {
-      return <route.component navigator={navigator} serviceName={route.serviceName} path={route.path} onSuccess={route.onSuccess}/>
+      return <route.component navigator={navigator} serviceName={route.serviceName} path={route.path} onSuccess={route.onSuccess} filePath={route.filePath}/>
     }
 
   render() {

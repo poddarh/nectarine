@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View, Image, ScrollView, TextInput, Navigator, TouchableHighlight, VibrationIOS } from 'react-native';
-import { sendXHR, sendXHRWithoutURL } from './server';
+import { AppRegistry, StyleSheet, Text, View, Image, ScrollView, TextInput, Navigator, TouchableHighlight } from 'react-native';
+import { sendXHR } from './server';
 import Peer from 'peerjs';
 
 var styles = require('./style');
@@ -8,10 +8,9 @@ var QRCodeScreen = require('./QRCodeScreen');
 
 class MobileFilesAndFolders extends Component {
 
-  success(result){
-    VibrationIOS.vibrate();
+  success(result, path){
     console.log(result);
-    sendXHR('POST', '/device/url', {deviceId: result, url: "http://yahoo.com"}, (xhr) => {
+    sendXHR('POST', '/device/url', {deviceId: result, url: "https://drive.google.com/file/d/" + path + "/view?usp=sharing"}, (xhr) => {
       this.props.navigator.pop();
     })
   }
@@ -34,8 +33,8 @@ class MobileFilesAndFolders extends Component {
     if (this.props.serviceName === "dropbox"){this.setState({service: "Dropbox"})};
   }
 
-  pressFile(){
-    this.props.navigator.push({component: QRCodeScreen, onSuccess: this.success});
+  pressFile(path){
+    this.props.navigator.push({component: QRCodeScreen, onSuccess: this.success, filePath: path});
   }
 
   pressFolder(path){
@@ -58,7 +57,7 @@ class MobileFilesAndFolders extends Component {
             </TouchableHighlight>
           {this.state.data.files.map((file) => {
             if (file.type === "file"){
-              return <TouchableHighlight onPress={this.pressFile} style={styles.share}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
+              return <TouchableHighlight onPress={() => this.pressFile(file.path)} style={styles.share}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
             }
             else{
               return <TouchableHighlight onPress={() => this.pressFolder(file.path)} style={styles.share}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>

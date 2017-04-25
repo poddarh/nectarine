@@ -5,8 +5,7 @@ import {StyleSheet,
 View,
 Text,
 TouchableOpacity,
-TouchableHighlight,
-VibrationIOS,} from 'react-native';
+TouchableHighlight} from 'react-native';
 
 import Camera from 'react-native-camera';
 
@@ -43,8 +42,7 @@ var QRCodeScreen = React.createClass({
       this.barCodeFlag = false;
 
       setTimeout(function() {
-        VibrationIOS.vibrate();
-        $this.props.onSuccess(result.data);
+        $this.props.onSuccess(result.data, $this.props.filePath);
       }, 1000);
     }
   },
