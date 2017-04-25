@@ -4,7 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
-var ExpressPeerServer = require('peer').ExpressPeerServer;
+
 var SocketIO = require('socket.io');
 
 var cloud_services = {
