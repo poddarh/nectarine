@@ -33,7 +33,7 @@ export default class Contact extends React.Component {
 		else if (thisQuestion == "") {
 			this.setState({message: "You need to enter a question"});
 		}
-		else if (thisName !== "" || thisEmail !== "" || thisTOI !== "" || thisQuestion !== "") {
+		else if (thisName !== "" && thisEmail !== "" && thisTOI !== "" && thisQuestion !== "") {
 			var newData = this.state.data;
 			newData.name = thisName;
 			newData.email = thisEmail;

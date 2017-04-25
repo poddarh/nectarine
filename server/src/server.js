@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
 var ExpressPeerServer = require('peer').ExpressPeerServer;
+var sendmail = require('sendmail')();
 
 var cloud_services = {
   google_drive: require('./google.js'),
@@ -76,16 +77,19 @@ app.get('/user/cloudservices/:service/oauth', function(req, res) {
   res.end();
 });
 
-app.post('/email/:form', function(req,res) {
-  var userName = req.form.name;
-  var userEmail = req.form.email;
-  var userTopic = req.form.typeOfIssue;
-  var userMessage = req.form.question;
-  var userHeaders = 'From:' + userEmail +"/r/n";
-  userHeaders = 'CC:' + userEmail + "/r/n";
-  'mailto:contact@nectari.me', userTopic, userMessage, userHeaders
-  res.send(true);
-
+app.post('/email', function(req,res) {
+  var body = req.body;
+  console.log(body.email);
+  sendmail({
+    from: body.email,
+    to: 'contact@nectari.me',
+    subject: body.typeOfIssue,
+    html: body.name + body.question
+  }, function (err, reply) {
+    console.log(err && err.stack)
+    console.dir(reply)
+  })
+  res.send({ success : true });
 })
 
 app.post('/user/cloudservices/:service', function(req, res) {
