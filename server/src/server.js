@@ -63,6 +63,27 @@ app.get('/users/:userId', function(req, res) {
   }
 });
 
+// Update a user's data
+app.put('/users/:userId', function(req, res) {
+  var userId = req.params.userId;
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userIdNumber = parseInt(userId, 10);
+  // Check that the requester is the user itself.
+  if (fromUser === userIdNumber) {
+    var userData = readDocument('users', userId);
+    // making sure not to alter cloud_services
+    userData.name = req.body.name;
+    userData.email = req.body.email;
+    userData.password = req.body.password;
+    userData.image = req.body.image;
+    writeDocument('users', userData);
+    res.send(userData);
+  } else {
+    // 401: Unauthorized.
+    res.status(401).end();
+  }
+});
+
 app.get('/user/cloudservices', function(req, res) {
   var userId = getUserIdFromToken(req.get('Authorization'));
   var userData = readDocument('users', userId);

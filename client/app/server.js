@@ -87,8 +87,9 @@ export function getUserData(user, cb) {
 }
 
 export function updateUserData(data, cb) {
-  writeDocument('users', data);
-  emulateServerReturn(data, cb);
+  sendXHR('PUT', '/users/1', data, (xhr) => {
+    cb(JSON.parse(xhr.responseText))
+  })
 }
 
 export function sendContactEmail(form, cb) {
