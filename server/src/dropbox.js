@@ -71,6 +71,19 @@ function getFiles(token, path, cursor, callback) {
 }
 module.exports.getFiles = getFiles
 
+function getSharedLink(token, fileId, callback) {
+  var dbx = new Dropbox({ accessToken: token.access_token });
+  dbx.filesGetTemporaryLink({path: fileId})
+    .then(function (data) {
+      callback(data.link);
+    })
+    .catch(function (error) {
+      console.log(error);
+      callback(null);
+    });
+}
+module.exports.getSharedLink = getSharedLink
+
 var url = "https://www.dropbox.com/oauth2/authorize"
               + "?response_type=code"
               + "&client_id=" + oauth2cred.clientId

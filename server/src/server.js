@@ -189,6 +189,23 @@ app.get('/user/cloudservices/:service/files', function(req, res) {
   });
 })
 
+app.get('/user/cloudservices/:service/file/:fileId', function(req, res) {
+  var userId = getUserIdFromToken(req.get('Authorization'));
+  var userData = readDocument('users', userId);
+  if (userData.cloud_services[req.params.service] == null) {
+    res.status(403).end()
+  }
+  var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
+
+  cloud_services[req.params.service].getSharedLink(token, req.params.fileId, response => {
+    if(response == null) {
+      res.status(400).end();
+    } else {
+      res.send(response);
+    }
+  });
+})
+
 io.on('connection', function (socket) {
   socket.send({action: 'init'});
   setTimeout(() => {

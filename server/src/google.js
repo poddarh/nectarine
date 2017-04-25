@@ -2,10 +2,9 @@ var google = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
 var oauth2cred = require('./credentials.json').cloud_services.google_drive;
 
-var oauth2Client = new OAuth2(oauth2cred.clientId, oauth2cred.clientSecret, oauth2cred.redirectUrl);
-
 function getTokenFromKey(data, callback) {
   var key = data.key;
+  var oauth2Client = new OAuth2(oauth2cred.clientId, oauth2cred.clientSecret, oauth2cred.redirectUrl);
   oauth2Client.getToken(key, function(err, token) {
     if (err) {
       console.log(err);
@@ -24,6 +23,7 @@ function getFiles(token, path, cursor, callback) {
   if (cursor == null) {
     cursor = undefined;
   }
+  var oauth2Client = new OAuth2(oauth2cred.clientId, oauth2cred.clientSecret, oauth2cred.redirectUrl);
   oauth2Client.credentials = token;
   var service = google.drive('v3');
   service.files.list({
@@ -56,9 +56,49 @@ function getFiles(token, path, cursor, callback) {
 }
 module.exports.getFiles = getFiles
 
-var scopes = ['https://www.googleapis.com/auth/drive.metadata.readonly'];
+Date.prototype.addHours = function(h) {
+   this.setTime(this.getTime() + (h*60*60*1000));
+   return this;
+}
 
-var url = oauth2Client.generateAuthUrl({
+function getSharedLink(token, fileId, callback) {
+  var oauth2Client = new OAuth2(oauth2cred.clientId, oauth2cred.clientSecret, oauth2cred.redirectUrl);
+  oauth2Client.credentials = token;
+  var service = google.drive('v3');
+  service.permissions.create({
+    auth: oauth2Client,
+    fileId: fileId,
+    resource: {
+      role: "reader",
+      type: "anyone",
+      allowFileDiscovery: false,
+      expirationTime: new Date(Date.now()).addHours(4).toISOString()
+    }
+  }, function(err) {
+    if (err) {
+      callback(null);
+    } else {
+      service.files.get({
+        auth: oauth2Client,
+        fileId: fileId,
+        fields: "webViewLink"
+      }, function(err, response) {
+        if (err) {
+          callback(null);
+        } else {
+          callback(response.webViewLink);
+        }
+      });
+    }
+  });
+}
+module.exports.getSharedLink = getSharedLink
+
+var scopes = [
+  'https://www.googleapis.com/auth/drive'
+];
+
+var url = new OAuth2(oauth2cred.clientId, oauth2cred.clientSecret, oauth2cred.redirectUrl).generateAuthUrl({
   // 'online' (default) or 'offline' (gets refresh_token)
   access_type: 'offline',
   // If you only need one scope you can pass it as a string
