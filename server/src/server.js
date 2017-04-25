@@ -4,7 +4,6 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
-var ExpressPeerServer = require('peer').ExpressPeerServer;
 var sendmail = require('sendmail')({silent: true, devPort: 3000});
 var SocketIO = require('socket.io');
 
