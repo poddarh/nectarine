@@ -125,15 +125,13 @@ app.get('/user/cloudservices/:service/oauth', function(req, res) {
   res.end();
 });
 
-app.post('/email/:data', function(req,res) {
-  var body = req.params.data;
-  console.log(body);
-  console.log(body.email);
+app.post('/email', function(req,res) {
+  var body = req.body;
   sendmail({
-    from: body,
+    from: body.email,
     to: 'contact@nectari.me',
-    subject: req.body.typeOfIssue,
-    html: req.body.name + req.body.question
+    subject: body.typeOfIssue,
+    html: 'Name: ' + body.name + '\n\n' + body.question
   }, function (err, reply) {
     console.log(err && err.stack)
     console.dir(reply)
