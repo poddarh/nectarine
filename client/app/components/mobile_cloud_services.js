@@ -33,11 +33,11 @@ export default class MobileCloudServices extends React.Component {
             <div className="row text-center">
 							{(function(bool) {
 								if(bool)
-									return <Link to={"/files_and_folders/Google Drive"}><img src="img/googledrive_logo.png"/></Link>
+									return <Link to={"/files_and_folders/google_drive"}><img src="img/googledrive_logo.png"/></Link>
 							})(this.state.cloud_services.google_drive !== undefined)}
 							{(function(bool) {
 								if(bool)
-									return <Link to="/files_and_folders/Dropbox"><img src="img/dropbox_logo.png"/></Link>
+									return <Link to="/files_and_folders/dropbox"><img src="img/dropbox_logo.png"/></Link>
 							})(this.state.cloud_services.dropbox !== undefined)}
             </div>
 

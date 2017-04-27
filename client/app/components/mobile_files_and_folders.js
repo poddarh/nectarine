@@ -1,12 +1,24 @@
 import React from 'react';
-import {getUserData} from '../server'
+import { sendXHR } from '../server'
+
 
 export default class MobileFilesAndFolders extends React.Component {
 
 	constructor(props){
 		super(props);
-		this.state = { "user": { } }
-		getUserData('1', (data) => {this.setState({user: data});})
+		this.state = { "user": { }, data: { files: [], path: "" } };
+	}
+
+	parseServiceName(){
+		if(this.props.params.service === "google_drive"){ return "Google Drive" }
+		else { return "Dropbox" }
+	}
+
+	componentWillMount(){
+    sendXHR('GET', '/user/cloudservices/' + this.props.serviceName + '/files', undefined, (xhr) => {
+      var data = JSON.parse(xhr.responseText);
+      this.setState({ data: data });
+    });
 	}
 
 	render() {
@@ -14,11 +26,7 @@ export default class MobileFilesAndFolders extends React.Component {
       <div className="container">
         <div className="col-xs-12">
           <div className="row text-center title">
-            {'Showing Files and Folders from ' + this.props.params.service}
-          </div>
-
-          <div className="row text-center regular-text">
-            Account Name: {this.state.user.email}
+            {'Showing Files and Folders from ' + this.parseServiceName()}
           </div>
 
           <div className="row files">
