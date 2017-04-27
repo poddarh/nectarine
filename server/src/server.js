@@ -4,7 +4,8 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var database = require('./database.js');
 var validate = require('express-jsonschema').validate;
-var ExpressPeerServer = require('peer').ExpressPeerServer;
+var emailUtil = require('./email');
+var SocketIO = require('socket.io');
 
 var cloud_services = {
   google_drive: require('./google.js'),
@@ -20,6 +21,33 @@ var app = express();
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 app.use(express.static('../client/build'));
+
+var server = null;
+var port = 0;
+
+if (IS_PRODUCTION) {
+  var fs = require('fs');
+  var https = require('https');
+  var privateKey  = fs.readFileSync('sslcert/nectari_me.key', 'utf8');
+  var certificate = fs.readFileSync('sslcert/nectari_me.crt', 'utf8');
+  var credentials = {key: privateKey, cert: certificate};
+  server = https.createServer(credentials, app);
+  port = 443;
+
+  // set up plain http server with a route to redirect http to https
+  var redirectApp = express();
+  redirectApp.get('*',function(req,res){
+      res.redirect('https://' + req.get('host') + req.originalUrl)
+  })
+  redirectApp.listen(80);
+}
+else {
+  var http = require('http');
+  server = http.createServer(app);
+  port = 3000;
+}
+
+var io = SocketIO(server);
 
 /**
  * Get the user ID from a token. Returns -1 (an invalid ID)
@@ -63,6 +91,27 @@ app.get('/users/:userId', function(req, res) {
   }
 });
 
+// Update a user's data
+app.put('/users/:userId', function(req, res) {
+  var userId = req.params.userId;
+  var fromUser = getUserIdFromToken(req.get('Authorization'));
+  var userIdNumber = parseInt(userId, 10);
+  // Check that the requester is the user itself.
+  if (fromUser === userIdNumber) {
+    var userData = readDocument('users', userId);
+    // making sure not to alter cloud_services
+    userData.name = req.body.name;
+    userData.email = req.body.email;
+    userData.password = req.body.password;
+    userData.image = req.body.image;
+    writeDocument('users', userData);
+    res.send(userData);
+  } else {
+    // 401: Unauthorized.
+    res.status(401).end();
+  }
+});
+
 app.get('/user/cloudservices', function(req, res) {
   var userId = getUserIdFromToken(req.get('Authorization'));
   var userData = readDocument('users', userId);
@@ -74,6 +123,23 @@ app.get('/user/cloudservices/:service/oauth', function(req, res) {
   'Location': cloud_services[req.params.service].getOAuthURL()
   });
   res.end();
+});
+
+app.post('/email', function(req,res) {
+  var body = req.body;
+  emailUtil.sendEmail(
+    body.email,
+    'contact@nectari.me',
+    body.typeOfIssue,
+    'Name: ' + body.name + '\nEmail: ' + body.email + '\n\n' + body.question,
+    (data) => {
+      if (data.success) {
+        res.send({ success : true });
+      } else {
+        res.status(400).end();
+      }
+    }
+  );
 });
 
 app.post('/user/cloudservices/:service', function(req, res) {
@@ -96,9 +162,11 @@ app.delete('/user/cloudservices/:type', function(req, res) {
   var userId = getUserIdFromToken(req.get('Authorization'));
   var userData = readDocument('users', userId);
   var cloud_services_id = userData.cloud_services[req.params.type];
-  deleteDocument("cloud_services", cloud_services_id);
-  delete userData.cloud_services[req.params.type];
-  writeDocument('users', userData);
+  if (cloud_services_id != null) {
+    deleteDocument("cloud_services", cloud_services_id);
+    delete userData.cloud_services[req.params.type];
+    writeDocument('users', userData);
+  }
   res.send(userData.cloud_services);
 })
 
@@ -122,6 +190,54 @@ app.get('/user/cloudservices/:service/files', function(req, res) {
   });
 })
 
+app.get('/user/cloudservices/:service/file/:fileId', function(req, res) {
+  var userId = getUserIdFromToken(req.get('Authorization'));
+  var userData = readDocument('users', userId);
+  if (userData.cloud_services[req.params.service] == null) {
+    res.status(403).end()
+  }
+  var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
+
+  cloud_services[req.params.service].getSharedLink(token, req.params.fileId, response => {
+    if(response == null) {
+      res.status(400).end();
+    } else {
+      res.send(response);
+    }
+  });
+})
+
+io.on('connection', function (socket) {
+  socket.send({action: 'init'});
+  setTimeout(() => {
+    socket.disconnect(true);
+  }, 45000);
+});
+
+app.post('/device/url', function(req, res) {
+  var userId = getUserIdFromToken(req.get('Authorization'));
+  if (userId != null) {
+    var body = req.body;
+    var url = body.url;
+    var socketId = body.deviceId;
+    var socket = io.sockets.sockets[socketId];
+    if (socket != null) {
+      socket.send({action: 'url', url: url}, (data) => {
+        if (data.success) {
+          res.send();
+        } else {
+          res.status(500).end();
+        }
+        socket.disconnect(true);
+      });
+    } else {
+      res.status(400).end();
+    }
+  } else {
+    res.status(401).end();
+  }
+})
+
 // Reset the database.
 app.post('/resetdb', function(req, res) {
   console.log("Resetting database...");
@@ -142,31 +258,6 @@ app.use(function(err, req, res, next) {
   }
 });
 
-if (IS_PRODUCTION) {
-  var fs = require('fs');
-  var https = require('https');
-  var privateKey  = fs.readFileSync('sslcert/nectari_me.key', 'utf8');
-  var certificate = fs.readFileSync('sslcert/nectari_me.crt', 'utf8');
-  var credentials = {key: privateKey, cert: certificate};
-  var httpsServer = https.createServer(credentials, app);
-  var port = 443;
-  httpsServer.listen(port, function () {
-    console.log('Example app listening on port ' + port + "!");
-  });
-  app.use('/api', ExpressPeerServer(httpsServer, {}));
-
-  // set up plain http server with a route to redirect http to https
-  var redirectApp = express();
-  redirectApp.get('*',function(req,res){
-      res.redirect('https://' + req.get('host') + req.originalUrl)
-  })
-  redirectApp.listen(80);
-} else {
-  var http = require('http');
-  var httpServer = http.createServer(app);
-  var port = 3000;
-  httpServer.listen(port, function () {
-    console.log('Example app listening on port ' + port + "!");
-  });
-  app.use('/api', ExpressPeerServer(httpServer, {}));
-}
+server.listen(port, function () {
+  console.log('Example app listening on port ' + port + "!");
+});

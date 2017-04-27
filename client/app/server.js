@@ -87,13 +87,15 @@ export function getUserData(user, cb) {
 }
 
 export function updateUserData(data, cb) {
-  writeDocument('users', data);
-  emulateServerReturn(data, cb);
+  sendXHR('PUT', '/users/1', data, (xhr) => {
+    cb(JSON.parse(xhr.responseText))
+  })
 }
 
-export function sendContactEmail(form, cb) {
-	//Logic to send an email here!
-  emulateServerReturn({success:true}, cb);
+export function sendContactEmail(data, cb) {
+  sendXHR('POST', '/email', data, (xhr) => {
+    cb(JSON.parse(xhr.responseText));
+  });
 }
 
 export function getUserCloudServices(userID, cb) {

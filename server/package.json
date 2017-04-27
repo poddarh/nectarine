@@ -6,14 +6,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.15.0",
+    "body-parser": "^1.17.1",
     "cloudrail-si": "^2.17.3",
     "dropbox": "^2.5.2",
     "express": "^4.13.4",
     "express-jsonschema": "^1.1.0",
     "google-auth-library": "^0.10.0",
     "googleapis": "^19.0.0",
-    "peer": "^0.2.8"
+    "nodemailer": "^4.0.1",
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "eslint": "^2.4.0",

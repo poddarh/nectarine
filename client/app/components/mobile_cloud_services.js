@@ -1,7 +1,6 @@
 import React from 'react';
 import {getUserCloudServices} from '../server';
 import {Link} from 'react-router';
-import Peer from 'peerjs';
 
 export default class MobileCloudServices extends React.Component {
 
@@ -14,13 +13,13 @@ export default class MobileCloudServices extends React.Component {
 	}
 
 	send(url) {
-		var peer = new Peer({host: this.host, port: this.port, path: '/api'});
-		peer.on('open', function() {
-			var conn = peer.connect(prompt("Enter Peer ID:"));
-			conn.on('open', function(){
-				conn.send({url: url});
-			});
-		});
+		// var peer = new Peer({host: this.host, port: this.port, path: '/api'});
+		// peer.on('open', function() {
+		// 	var conn = peer.connect(prompt("Enter Peer ID:"));
+		// 	conn.on('open', function(){
+		// 		conn.send({url: url});
+		// 	});
+		// });
 	}
 
 	render(){
@@ -34,11 +33,11 @@ export default class MobileCloudServices extends React.Component {
             <div className="row text-center">
 							{(function(bool) {
 								if(bool)
-									return <Link to={"/files_and_folders/Google Drive"}><img src="img/googledrive_logo.png"/></Link>
+									return <Link to={"/files_and_folders/google_drive"}><img src="img/googledrive_logo.png"/></Link>
 							})(this.state.cloud_services.google_drive !== undefined)}
 							{(function(bool) {
 								if(bool)
-									return <Link to="/files_and_folders/Dropbox"><img src="img/dropbox_logo.png"/></Link>
+									return <Link to="/files_and_folders/dropbox"><img src="img/dropbox_logo.png"/></Link>
 							})(this.state.cloud_services.dropbox !== undefined)}
             </div>
 
