@@ -1,7 +1,5 @@
 import React from 'react';
 import { sendXHR } from '../server'
-
-
 export default class MobileFilesAndFolders extends React.Component {
 
 	constructor(props){
