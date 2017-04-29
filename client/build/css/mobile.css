@@ -24,7 +24,7 @@ img {
   margin-right: 25px;
   margin-left: 25px;
   margin-bottom: 30px;
-  border: outset white;
+  borderColor: outset white;
   border-radius: 10px;
   background-color: #474747;
   padding: 10px;
