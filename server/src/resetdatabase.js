@@ -1,10 +1,21 @@
 var ObjectID = require('mongodb').ObjectID;
 
 // Put your startup's name here (only letters and numbers -- no spaces, apostrophes, or special characters!)
-var databaseName = null;
+var databaseName = "nectarime";
 // Put the initial mock objects here.
-var initialData = null;
-
+var initialData = {
+  "users": {
+    "1": {
+      "_id": new ObjectID("000000000000000000000001"),
+      "name": "Initial User",
+      "email": "user@email.com",
+      "password": "password",
+      "image": "img/profile-temp.jpg",
+      "cloud_services": {}
+    }
+  },
+  "cloud_services": {}
+};
 /**
  * Resets a collection.
  */
