@@ -123,26 +123,43 @@ MongoClient.connect(url, function(err, db) {
     }
   });
 
-  // Update a user's data
   app.put('/users/:userId', function(req, res) {
-    var userId = req.params.userId;
+    var userId = new ObjectID(req.params.userId);
     var fromUser = getUserIdFromToken(req.get('Authorization'));
     var userIdNumber = parseInt(userId, 10);
     // Check that the requester is the user itself.
     if (fromUser === userIdNumber) {
-      var userData = readDocument('users', userId);
-      // making sure not to alter cloud_services
-      userData.name = req.body.name;
-      userData.email = req.body.email;
-      userData.password = req.body.password;
-      userData.image = req.body.image;
-      writeDocument('users', userData);
-      res.send(userData);
-    } else {
-      // 401: Unauthorized.
-      res.status(401).end();
+      db.connection('users').updateOne({ _id : userId,
+      _name : req.body.name,
+      _email : req.body.email,
+      _password : req.body.password,
+      _image : req.body.image
+    }, function(err, result) {
+      if (err) {
+        // Database Error
+        // Internal Error: 500
+        res.status(500).send("Database error: " + err);
+      } else if (userId === null) {
+        res.status(400).send("Could not find User: " + userId);
+      } else if (result.modifiedCount === 0) {
+          // 400: Bad request.
+      return res.status(400).end();
     }
   });
+}
+});
+  //     // making sure not to alter cloud_services
+  //     userData.name = req.body.name;
+  //     userData.email = req.body.email;
+  //     userData.password = req.body.password;
+  //     userData.image = req.body.image;
+  //     writeDocument('users', userData);
+  //     res.send(userData);
+  //   } else {
+  //     // 401: Unauthorized.
+  //     res.status(401).end();
+  //   }
+  // });
 
   app.get('/user/cloudservices', function(req, res) {
     var userId = getUserIdFromToken(req.get('Authorization'));
