@@ -1,6 +1,6 @@
 import {readDocument, writeDocument, addDocument, removeDocument} from './database.js';
-
-var token = 'eyJpZCI6MX0='; // <-- Put your base64'd JSON token here
+// token for "000000000000000000000001"
+var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9'; // <-- Put your base64'd JSON token here
 
 function NectarineError(message) {
   console.log(message);
@@ -81,7 +81,7 @@ function emulateServerReturn(data, cb) {
 }
 
 export function getUserData(user, cb) {
-  sendXHR('GET', '/users/1', undefined, (xhr) => {
+  sendXHR('GET', '/users/000000000000000000000001', undefined, (xhr) => {
     cb(JSON.parse(xhr.responseText));
   });
 }
