@@ -11,10 +11,18 @@ var initialData = {
       "email": "user@email.com",
       "password": "password",
       "image": "img/profile-temp.jpg",
-      "cloud_services": {}
+      "cloud_services": {
+        "dropbox": new ObjectID("000000000000000000000001")
+      }
     }
   },
-  "cloud_services": {}
+  "cloud_services": {
+    "1": {
+      "_id": new ObjectID("000000000000000000000001"),
+      "token": 234234534,
+      "expiry": 1435365643564
+    }
+  }
 };
 /**
  * Resets a collection.
