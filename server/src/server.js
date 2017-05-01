@@ -125,16 +125,16 @@ MongoClient.connect(url, function(err, db) {
 
   app.put('/users/:userId', function(req, res) {
     var userId = new ObjectID(req.params.userId);
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
+    var fromUser = new ObjectID(getUserIdFromToken(req.get('Authorization')));
     var userIdNumber = parseInt(userId, 10);
     // Check that the requester is the user itself.
     if (fromUser === userIdNumber) {
-      db.connection('users').updateOne({ _id : userId,
-      _name : req.body.name,
-      _email : req.body.email,
-      _password : req.body.password,
-      _image : req.body.image
-    }, function(err, result) {
+      db.connection('users').updateOne({ _id : userId}, {$set : {
+      "userId.name" : req.body.name,
+      "userId.email" : req.body.email,
+      "userId.password" : req.body.password,
+      "userId.image" : req.body.image
+    }}, function(err, result) {
       if (err) {
         // Database Error
         // Internal Error: 500
