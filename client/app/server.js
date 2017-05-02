@@ -87,7 +87,7 @@ export function getUserData(user, cb) {
 }
 
 export function updateUserData(data, cb) {
-  sendXHR('PUT', '/users/1', data, (xhr) => {
+  sendXHR('PUT', '/users/000000000000000000000001', data, (xhr) => {
     cb(JSON.parse(xhr.responseText))
   })
 }
