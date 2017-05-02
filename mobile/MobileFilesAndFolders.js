@@ -10,9 +10,14 @@ class MobileFilesAndFolders extends Component {
 
   success(result, path){
     console.log(result);
-    sendXHR('POST', '/device/url', {deviceId: result, url: "https://drive.google.com/file/d/" + path + "/view?usp=sharing"}, (xhr) => {
-      this.props.navigator.pop();
-    })
+    this.send(this.shareUrl, result);
+    this.props.navigator.pop();
+  }
+
+  send(url, peerId) {
+    sendXHR('POST', '/device/url', {deviceId: peerId, url: url}, (xhr) => {
+      console.log(xhr.responseText);
+    });
   }
 
   constructor(props){
@@ -33,8 +38,11 @@ class MobileFilesAndFolders extends Component {
     if (this.props.serviceName === "dropbox"){this.setState({service: "Dropbox"})};
   }
 
-  pressFile(path){
-    this.props.navigator.push({component: QRCodeScreen, onSuccess: this.success, filePath: path});
+  pressFile(file){
+    sendXHR('GET', '/user/cloudservices/' + this.props.serviceName + '/file/' + file.id, undefined, (xhr) => {
+      this.shareUrl = xhr.responseText;
+    });
+    this.props.navigator.push({component: QRCodeScreen, onSuccess: this.success});
   }
 
   pressFolder(path){
@@ -57,10 +65,10 @@ class MobileFilesAndFolders extends Component {
             </TouchableHighlight>
           {this.state.data.files.map((file) => {
             if (file.type === "file"){
-              return <TouchableHighlight onPress={() => this.pressFile(file.path)} style={styles.share}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
+              return <TouchableHighlight key={file.id} onPress={() => this.pressFile(file)} style={styles.file}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
             }
             else{
-              return <TouchableHighlight onPress={() => this.pressFolder(file.path)} style={styles.share}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
+              return <TouchableHighlight key={file.id} onPress={() => this.pressFolder(file.path)} style={styles.folder}><Text style={styles.text}>{file.name}</Text></TouchableHighlight>
             }
           })}
         </View>

@@ -43,7 +43,7 @@ var QRCodeScreen = React.createClass({
 
       setTimeout(function() {
         $this.props.onSuccess(result.data, $this.props.filePath);
-      }, 1000);
+      }, 500);
     }
   },
 
