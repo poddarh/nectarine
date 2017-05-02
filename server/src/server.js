@@ -162,10 +162,31 @@ MongoClient.connect(url, function(err, db) {
   // });
 
   app.get('/user/cloudservices', function(req, res) {
-    var userId = getUserIdFromToken(req.get('Authorization'));
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
     var userData = readDocument('users', userId);
     res.send(userData.cloud_services);
   });
+
+  /*app.get('/users/cloudservices', function(req, res) {
+    var userId = getUserIdFromToken(req.get('Authorization'));
+    var userData = readDocument('users', userId);
+    if (userData === userId) {
+      getUserData(new ObjectID(userId), function(err, userData) {
+        if (err) {
+          // Database Error
+          // Internal Error: 500
+          res.status(500).send("Database error: " + err);
+        } else if (userData === null) {
+          res.status(400).send("Could not find User: " + userId);
+        } else {
+          res.send(userData.cloud_services);
+        }
+      });
+    } else {
+      // 401: Unauthorized request.
+      res.status(401).end();
+    }
+  });*/
 
   app.get('/user/cloudservices/:service/oauth', function(req, res) {
     res.writeHead(302, {
@@ -197,7 +218,7 @@ MongoClient.connect(url, function(err, db) {
       if(token == null) {
         res.status(403).end();
       } else {
-        var userId = getUserIdFromToken(req.get('Authorization'));
+        var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')))
         var userData = readDocument('users', userId);
         var addedToken = addDocument('cloud_services', token)
         userData.cloud_services[req.params.service] = addedToken._id;
@@ -208,7 +229,7 @@ MongoClient.connect(url, function(err, db) {
   })
 
   app.delete('/user/cloudservices/:type', function(req, res) {
-    var userId = getUserIdFromToken(req.get('Authorization'));
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
     var userData = readDocument('users', userId);
     var cloud_services_id = userData.cloud_services[req.params.type];
     if (cloud_services_id != null) {
@@ -220,7 +241,7 @@ MongoClient.connect(url, function(err, db) {
   })
 
   app.get('/user/cloudservices/:service/files', function(req, res) {
-    var userId = getUserIdFromToken(req.get('Authorization'));
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')))
     var userData = readDocument('users', userId);
     if (userData.cloud_services[req.params.service] == null) {
       res.status(403).end()
@@ -240,7 +261,7 @@ MongoClient.connect(url, function(err, db) {
   })
 
   app.get('/user/cloudservices/:service/file/:fileId', function(req, res) {
-    var userId = getUserIdFromToken(req.get('Authorization'));
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
     var userData = readDocument('users', userId);
     if (userData.cloud_services[req.params.service] == null) {
       res.status(403).end()
@@ -264,7 +285,7 @@ MongoClient.connect(url, function(err, db) {
   });
 
   app.post('/device/url', function(req, res) {
-    var userId = getUserIdFromToken(req.get('Authorization'));
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
     if (userId != null) {
       var body = req.body;
       var url = body.url;
