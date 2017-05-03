@@ -101,6 +101,22 @@ MongoClient.connect(url, function(err, db) {
     });
   }
 
+  // service = userData.cloud_services[req.params.service]
+  function getToken(service, callback) {
+    db.collection('users').findOne({
+      _id: service
+    }, function(err, token) {
+      if (err) {
+        // An error occured.
+        return callback(err);
+      } else if (token === null) {
+        // Token not found.
+        return callback(null, null);
+      }
+      callback(null, token);
+    })
+  }
+
   // getUserData
   app.get('/users/:userId', function(req, res) {
     var userId = req.params.userId;
@@ -149,54 +165,21 @@ MongoClient.connect(url, function(err, db) {
   });
 }
 });
-  //     // making sure not to alter cloud_services
-  //     userData.name = req.body.name;
-  //     userData.email = req.body.email;
-  //     userData.password = req.body.password;
-  //     userData.image = req.body.image;
-  //     writeDocument('users', userData);
-  //     res.send(userData);
-  //   } else {
-  //     // 401: Unauthorized.
-  //     res.status(401).end();
-  //   }
-  // });
 
   app.get('/user/cloudservices', function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    getUserData(new ObjectID(fromUser), function(err, userData) {
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
+    getUserData(new ObjectID(userId), function(err, userData) {
       if (err) {
         // Database Error
         // Internal Error: 500
         res.status(500).send("Database error: " + err);
       } else if (userData === null) {
-        res.status(400).send("Could not find User: " + fromUser);
+        res.status(400).send("Could not find User: " + userId);
       } else {
         res.send(userData.cloud_services);
       }
     });
   });
-
-  /*app.get('/users/cloudservices', function(req, res) {
-    var userId = getUserIdFromToken(req.get('Authorization'));
-    var userData = readDocument('users', userId);
-    if (userData === userId) {
-      getUserData(new ObjectID(userId), function(err, userData) {
-        if (err) {
-          // Database Error
-          // Internal Error: 500
-          res.status(500).send("Database error: " + err);
-        } else if (userData === null) {
-          res.status(400).send("Could not find User: " + userId);
-        } else {
-          res.send(userData.cloud_services);
-        }
-      });
-    } else {
-      // 401: Unauthorized request.
-      res.status(401).end();
-    }
-  });*/
 
   app.get('/user/cloudservices/:service/oauth', function(req, res) {
     res.writeHead(302, {
@@ -251,14 +234,14 @@ MongoClient.connect(url, function(err, db) {
   })
 
   app.get('/user/cloudservices/:service/files', function(req, res) {
-    var fromUser = getUserIdFromToken(req.get('Authorization'));
-    getUserData(new ObjectID(fromUser), function(err, userData) {
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
+    getUserData(userId, function(err, userData) {
       if (err) {
         // Database Error
         // Internal Error: 500
         res.status(500).send("Database error: " + err);
       } else if (userData === null) {
-        res.status(400).send("Could not find User: " + fromUser);
+        res.status(400).send("Could not find User: " + userId);
       } else {
         if (userData.cloud_services[req.params.service] == null) {
           res.status(403).end()
@@ -278,27 +261,35 @@ MongoClient.connect(url, function(err, db) {
   })
 
   app.get('/user/cloudservices/:service/file/:fileId', function(req, res) {
-    var fromUser = new ObjectID(getUserIdFromToken(req.get('Authorization')));
-
-    getUserData(new ObjectID(fromUser), function(err, userData) {
+    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
+    getUserData(userId, function(err, userData) {
       if (err) {
         // Database Error
         // Internal Error: 500
         res.status(500).send("Database error: " + err);
       } else if (userData === null) {
-        res.status(400).send("Could not find User: " + fromUser);
+        res.status(400).send("Could not find User: " + userId);
       } else {
         if (userData.cloud_services[req.params.service] == null) {
           res.status(403).end()
         }
-        var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
-        cloud_services[req.params.service].getSharedLink(token, req.params.fileId, response => {
-          if(response == null) {
-            res.status(400).end();
+        var tokenId = userData.cloud_services[req.params.service];
+        getToken(tokenId, function(err, token) {
+          if (err) {
+            // Database Error
+            res.status(500).send("Database error: " + err);
+          } else if (token === null) {
+            res.status(400).send("Could not find Token: " + tokenId)
           } else {
-            res.send(response);
+            cloud_services[req.params.service].getSharedLink(token, req.params.fileId, response => {
+              if(response == null) {
+                res.status(400).end();
+              } else {
+                res.send(response);
+              }
+            });
           }
-        });
+        })
       }
     });
   })
