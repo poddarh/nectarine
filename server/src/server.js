@@ -2,8 +2,6 @@ const IS_PRODUCTION = (process.argv.length > 2 && process.argv[2] === "prod");
 
 var express = require('express');
 var bodyParser = require('body-parser');
-var database = require('./database.js');
-var validate = require('express-jsonschema').validate;
 var emailUtil = require('./email');
 var SocketIO = require('socket.io');
 
@@ -11,11 +9,6 @@ var cloud_services = {
   google_drive: require('./google.js'),
   dropbox: require('./dropbox.js')
 }
-
-var readDocument = database.readDocument;
-var writeDocument = database.writeDocument;
-var addDocument = database.addDocument;
-var deleteDocument = database.deleteDocument;
 
 var mongo_express = require('mongo-express/lib/middleware');
 var mongo_express_config = require('mongo-express/config.default.js');
@@ -205,33 +198,71 @@ MongoClient.connect(url, function(err, db) {
     );
   });
 
+  //After clicking on "Add Connection" button, this adds a new cloud service
+  // for that cloud service to user.
   app.post('/user/cloudservices/:service', function(req, res) {
     var body = req.body;
     cloud_services[req.params.service].getTokenFromKey(body, token => {
       if(token == null) {
         res.status(403).end();
       } else {
-        var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')))
-        var userData = readDocument('users', userId);
-        var addedToken = addDocument('cloud_services', token)
-        userData.cloud_services[req.params.service] = addedToken._id;
-        writeDocument('users', userData);
-        res.send(userData.cloud_services);
+        var userId = getUserIdFromToken(req.get('Authorization'));
+        db.collection('cloud_services').insertOne(token, err => {
+          if (err) {
+            res.status(500).send("Database error: " + err);
+          } else {
+            var $set = {};
+            $set["cloud_services." + req.params.service] = token._id
+            db.collection('users').updateOne(
+              { "_id" : new ObjectID(userId) },
+              { $set: $set },
+              function(err) {
+                if (err) {
+                  res.status(500).send("Database error: " + err);
+                } else {
+                  getUserData(new ObjectID(userId), function(err, userData) {
+                    if (err) {
+                      res.status(500).send("Database error: " + err);
+                    } else if (userData === null) {
+                      res.status(400).send("Could not find User: " + userId);
+                    } else {
+                      res.send(userData.cloud_services);
+                    }
+                  });
+                }
+              }
+            );
+          }
+        });
       }
     });
   })
 
   app.delete('/user/cloudservices/:type', function(req, res) {
     var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
-    var userData = readDocument('users', userId);
-    var cloud_services_id = userData.cloud_services[req.params.type];
-    if (cloud_services_id != null) {
-      deleteDocument("cloud_services", cloud_services_id);
-      delete userData.cloud_services[req.params.type];
-      writeDocument('users', userData);
-    }
-    res.send(userData.cloud_services);
-  })
+    getUserData(new ObjectID(userId), function(err, userData) {
+      if (err) {
+        res.status(500).send("Database error: " + err);
+      } else if (userData === null) {
+        res.status(400).send("Could not find User: " + userId);
+      } else {
+        var $unset = {};
+        $unset["cloud_services." + req.params.type] = ""
+        db.collection('users').updateOne(
+          { "_id" : new ObjectID(userId) },
+          { $unset: $unset},
+          function(err) {
+            if (err) {
+              res.status(500).send("Database error: " + err);
+            } else {
+              delete userData.cloud_services[req.params.type];
+              res.send(userData.cloud_services);
+            }
+          }
+        );
+      }
+    });
+  });
 
   app.get('/user/cloudservices/:service/files', function(req, res) {
     var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
