@@ -103,7 +103,7 @@ MongoClient.connect(url, function(err, db) {
 
   // service = userData.cloud_services[req.params.service]
   function getToken(service, callback) {
-    db.collection('users').findOne({
+    db.collection('cloud_services').findOne({
       _id: service
     }, function(err, token) {
       if (err) {
