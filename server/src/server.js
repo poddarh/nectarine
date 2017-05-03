@@ -246,16 +246,25 @@ MongoClient.connect(url, function(err, db) {
         if (userData.cloud_services[req.params.service] == null) {
           res.status(403).end()
         }
-        var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
-        var path = req.query.path;
-        var cursor = req.query.cursor;
-        cloud_services[req.params.service].getFiles(token, path, cursor, response => {
-          if(response == null) {
-            res.status(400).end();
+        var tokenId = userData.cloud_services[req.params.service];
+        getToken(tokenId, function(err, token) {
+          if (err) {
+            // Database Error
+            res.status(500).send("Database error: " + err);
+          } else if (token === null) {
+            res.status(400).send("Could not find Cloud Service: " + tokenId)
           } else {
-            res.send(response);
+            var path = req.query.path;
+            var cursor = req.query.cursor;
+            cloud_services[req.params.service].getFiles(token, path, cursor, response => {
+              if(response == null) {
+                res.status(400).end();
+              } else {
+                res.send(response);
+              }
+            });
           }
-        });
+        })
       }
     });
   })
@@ -279,7 +288,7 @@ MongoClient.connect(url, function(err, db) {
             // Database Error
             res.status(500).send("Database error: " + err);
           } else if (token === null) {
-            res.status(400).send("Could not find Token: " + tokenId)
+            res.status(400).send("Could not find Cloud Service: " + tokenId)
           } else {
             cloud_services[req.params.service].getSharedLink(token, req.params.fileId, response => {
               if(response == null) {
