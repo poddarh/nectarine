@@ -278,18 +278,27 @@ MongoClient.connect(url, function(err, db) {
   })
 
   app.get('/user/cloudservices/:service/file/:fileId', function(req, res) {
-    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
-    var userData = readDocument('users', userId);
-    if (userData.cloud_services[req.params.service] == null) {
-      res.status(403).end()
-    }
-    var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
+    var fromUser = new ObjectID(getUserIdFromToken(req.get('Authorization')));
 
-    cloud_services[req.params.service].getSharedLink(token, req.params.fileId, response => {
-      if(response == null) {
-        res.status(400).end();
+    getUserData(new ObjectID(fromUser), function(err, userData) {
+      if (err) {
+        // Database Error
+        // Internal Error: 500
+        res.status(500).send("Database error: " + err);
+      } else if (userData === null) {
+        res.status(400).send("Could not find User: " + fromUser);
       } else {
-        res.send(response);
+        if (userData.cloud_services[req.params.service] == null) {
+          res.status(403).end()
+        }
+        var token = readDocument('cloud_services', userData.cloud_services[req.params.service]);
+        cloud_services[req.params.service].getSharedLink(token, req.params.fileId, response => {
+          if(response == null) {
+            res.status(400).end();
+          } else {
+            res.send(response);
+          }
+        });
       }
     });
   })
