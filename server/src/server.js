@@ -163,9 +163,18 @@ MongoClient.connect(url, function(err, db) {
   // });
 
   app.get('/user/cloudservices', function(req, res) {
-    var userId = new ObjectID(getUserIdFromToken(req.get('Authorization')));
-    var userData = readDocument('users', userId);
-    res.send(userData.cloud_services);
+    var fromUser = getUserIdFromToken(req.get('Authorization'));
+    getUserData(new ObjectID(fromUser), function(err, userData) {
+      if (err) {
+        // Database Error
+        // Internal Error: 500
+        res.status(500).send("Database error: " + err);
+      } else if (userData === null) {
+        res.status(400).send("Could not find User: " + fromUser);
+      } else {
+        res.send(userData.cloud_services);
+      }
+    });
   });
 
   /*app.get('/users/cloudservices', function(req, res) {
