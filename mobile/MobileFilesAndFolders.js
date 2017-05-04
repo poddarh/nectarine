@@ -10,8 +10,10 @@ class MobileFilesAndFolders extends Component {
 
   success(result, path){
     console.log(result);
-    this.send(this.shareUrl, result);
-    this.props.navigator.pop();
+    sendXHR('GET', '/user/cloudservices/' + this.props.serviceName + '/file/' + this.file.id, undefined, (xhr) => {
+      this.send(xhr.responseText, result);
+      this.props.navigator.pop();
+    });
   }
 
   send(url, peerId) {
@@ -39,9 +41,7 @@ class MobileFilesAndFolders extends Component {
   }
 
   pressFile(file){
-    sendXHR('GET', '/user/cloudservices/' + this.props.serviceName + '/file/' + file.id, undefined, (xhr) => {
-      this.shareUrl = xhr.responseText;
-    });
+    this.file = file
     this.props.navigator.push({component: QRCodeScreen, onSuccess: this.success});
   }
 

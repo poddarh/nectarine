@@ -1,4 +1,4 @@
-var token = 'eyJpZCI6MX0='; // <-- Put your base64'd JSON token here
+var token = 'eyJpZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSJ9'; // <-- Put your base64'd JSON token here
 
 function NectarineError(message) {
   console.log(message);
